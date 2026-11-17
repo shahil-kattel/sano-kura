@@ -143,11 +143,10 @@ export default function AdminGalleryPage() {
                 <button
                   type="button"
                   onClick={() => setType("photo")}
-                  className={`flex-1 py-1.5 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition ${
-                    type === "photo"
-                      ? "bg-red-600 border-red-500 text-white shadow-md shadow-red-900/40"
-                      : "bg-slate-950 border-slate-800 text-slate-400 hover:text-white"
-                  }`}
+                  className={`flex-1 py-1.5 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition ${type === "photo"
+                    ? "bg-red-600 border-red-500 text-white shadow-md shadow-red-900/40"
+                    : "bg-slate-950 border-slate-800 text-slate-400 hover:text-white"
+                    }`}
                 >
                   <Camera className="w-3.5 h-3.5" />
                   <span>Photo Story</span>
@@ -155,11 +154,10 @@ export default function AdminGalleryPage() {
                 <button
                   type="button"
                   onClick={() => setType("video")}
-                  className={`flex-1 py-1.5 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition ${
-                    type === "video"
-                      ? "bg-blue-600 border-blue-500 text-white shadow-md shadow-blue-900/40"
-                      : "bg-slate-950 border-slate-800 text-slate-400 hover:text-white"
-                  }`}
+                  className={`flex-1 py-1.5 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition ${type === "video"
+                    ? "bg-blue-600 border-blue-500 text-white shadow-md shadow-blue-900/40"
+                    : "bg-slate-950 border-slate-800 text-slate-400 hover:text-white"
+                    }`}
                 >
                   <Video className="w-3.5 h-3.5" />
                   <span>Video Clip</span>
@@ -244,9 +242,8 @@ export default function AdminGalleryPage() {
               <div className="relative h-44 w-full bg-slate-950">
                 <img src={m.image} alt={m.titleEn} className="w-full h-full object-cover" />
                 <span
-                  className={`absolute top-2.5 left-2.5 text-[10px] font-bold px-2 py-0.5 rounded text-white shadow-md ${
-                    m.type === "video" ? "bg-blue-600" : "bg-red-600"
-                  }`}
+                  className={`absolute top-2.5 left-2.5 text-[10px] font-bold px-2 py-0.5 rounded text-white shadow-md ${m.type === "video" ? "bg-blue-600" : "bg-red-600"
+                    }`}
                 >
                   {m.type === "video" ? "Video Story" : "Photo Story"}
                 </span>

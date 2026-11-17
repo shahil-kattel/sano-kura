@@ -30,7 +30,13 @@ export const Footer: React.FC = () => {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Scroll the main content area if it has its own scroll container (e.g., admin pages)
+    const mainEl = document.querySelector('main');
+    if (mainEl) {
+      (mainEl as HTMLElement).scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    // Also scroll the window for regular pages
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

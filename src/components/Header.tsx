@@ -30,6 +30,15 @@ export const Header: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [bookmarkCount, setBookmarkCount] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 90);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Time & Date state
   const [currentDateStr, setCurrentDateStr] = useState({
@@ -71,7 +80,8 @@ export const Header: React.FC = () => {
   ];
 
   return (
-    <header className="w-full bg-white border-b border-gray-200 sticky top-0 z-50 shadow-xs">
+    <>
+      <header className="w-full bg-white border-b border-gray-200 shadow-xs">
       {/* 1. TOP UTILITY BAR */}
       <div className="bg-gray-900 text-gray-200 text-xs border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-1.5 flex flex-wrap items-center justify-between gap-3">
@@ -257,12 +267,35 @@ export const Header: React.FC = () => {
           </div>
         </div>
       </div>
+    </header>
 
-      {/* 3. PRIMARY NAVIGATION BAR */}
-      <nav className="bg-red-700 text-white shadow-xs">
+      {/* 3. PRIMARY STICKY NAVIGATION BAR (Stays pinned on scroll) */}
+      <nav
+        className={`sticky top-0 z-50 w-full transition-all duration-200 ${
+          isScrolled
+            ? "bg-red-700/98 backdrop-blur-md shadow-md border-b border-red-800"
+            : "bg-red-700 border-b border-red-800 shadow-xs"
+        } text-white`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center overflow-x-auto no-scrollbar py-0.5">
+              {/* If scrolled, display compact Brand Logo & Name to return to top */}
+              {isScrolled && (
+                <Link
+                  href="/"
+                  className="flex items-center gap-2 mr-3 pr-3 border-r border-red-600/80 hover:opacity-90 transition shrink-0 animate-in fade-in"
+                  title={language === "np" ? settings?.siteNameNp || "सानो कुरा" : settings?.siteNameEn || "Sano Kura"}
+                >
+                  <div className="w-6 h-6 bg-white text-red-700 rounded-md flex items-center justify-center font-black text-xs shadow-xs">
+                    सा
+                  </div>
+                  <span className="font-black text-xs tracking-tight text-white hidden sm:inline">
+                    {language === "np" ? settings?.siteNameNp || "सानो कुरा" : settings?.siteNameEn || "SANO KURA"}
+                  </span>
+                </Link>
+              )}
+
               {/* Home */}
               <Link
                 href="/"
@@ -304,15 +337,38 @@ export const Header: React.FC = () => {
               </Link>
             </div>
 
-            {/* Language Quick Switch pill on Navbar right */}
-            <button
-              onClick={toggleLanguage}
-              className="hidden md:flex items-center gap-1.5 bg-red-800 hover:bg-red-900 px-3 py-1.5 rounded-md text-xs font-bold transition ml-2 border border-red-600 shrink-0"
-              title="Switch language"
-            >
-              <Globe className="w-3.5 h-3.5 text-yellow-300" />
-              <span>{language === "np" ? "Eng" : "नेपा"}</span>
-            </button>
+            {/* Right side controls on sticky bar */}
+            <div className="flex items-center gap-1.5 shrink-0 ml-2">
+              {/* Quick search shortcut if scrolled */}
+              {isScrolled && (
+                <Link
+                  href="/search"
+                  className="p-1.5 rounded-md hover:bg-red-800 text-red-100 hover:text-white transition"
+                  title={t("search")}
+                >
+                  <Search className="w-4 h-4" />
+                </Link>
+              )}
+
+              {/* Language Quick Switch pill on Navbar right */}
+              <button
+                onClick={toggleLanguage}
+                className="flex items-center gap-1 bg-red-800 hover:bg-red-900 px-2.5 py-1 rounded-md text-xs font-bold transition border border-red-600/70 shrink-0"
+                title="Switch language"
+              >
+                <Globe className="w-3.5 h-3.5 text-yellow-300" />
+                <span>{language === "np" ? "Eng" : "नेपा"}</span>
+              </button>
+
+              {/* Mobile menu toggle button in sticky bar */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-1.5 text-white hover:bg-red-800 rounded-md transition"
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -422,6 +478,6 @@ export const Header: React.FC = () => {
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 };
