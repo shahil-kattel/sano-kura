@@ -168,15 +168,25 @@ export const Header: React.FC = () => {
         <div className="flex items-center justify-between gap-4">
           {/* Logo Branding */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 sm:w-13 sm:h-13 bg-red-600 text-white rounded-xl flex items-center justify-center font-black text-2xl sm:text-3xl shadow-md group-hover:bg-red-700 transition">
-              सा
-            </div>
+            {settings?.logoUrl ? (
+              <img
+                src={settings.logoUrl}
+                alt={language === "np" ? settings.siteNameNp : settings.siteNameEn}
+                className="w-11 h-11 sm:w-13 sm:h-13 object-cover rounded-xl shadow-md border border-red-500/30"
+              />
+            ) : (
+              <div className="w-11 h-11 sm:w-13 sm:h-13 bg-red-600 text-white rounded-xl flex items-center justify-center font-black text-2xl sm:text-3xl shadow-md group-hover:bg-red-700 transition">
+                सा
+              </div>
+            )}
             <div className="flex flex-col">
               <span className="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 group-hover:text-red-600 transition">
-                {language === "np" ? "सानो कुरा" : "SANO KURA"}
+                {language === "np" ? settings?.siteNameNp || "सानो कुरा" : settings?.siteNameEn || "SANO KURA"}
               </span>
               <span className="text-[11px] sm:text-xs text-gray-500 font-medium">
-                {language === "np" ? "सत्य, तथ्य र निष्पक्ष समाचार" : "Truth, Facts & Unbiased News"}
+                {language === "np"
+                  ? settings?.taglineNp || "सत्य, तथ्य र निष्पक्ष समाचार"
+                  : settings?.taglineEn || "Truth, Facts & Unbiased News"}
               </span>
             </div>
           </Link>

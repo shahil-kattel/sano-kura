@@ -14,6 +14,7 @@ import {
   Globe,
   Sparkles,
 } from "lucide-react";
+import ImageUpload from "@/components/admin/ImageUpload";
 import { useNews } from "@/context/NewsContext";
 
 export default function CreateArticlePage() {
@@ -263,21 +264,17 @@ export default function CreateArticlePage() {
             </div>
           </div>
 
-          {/* 4. FEATURED IMAGE */}
+          {/* 4. FEATURED IMAGE (UPLOAD FROM COMPUTER) */}
           <div className="space-y-3 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-            <label className="block text-xs font-bold text-slate-300">
-              Featured Image URL *
-            </label>
-            <input
-              type="url"
-              required
+            <ImageUpload
               value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="https://images.unsplash.com/..."
-              className="w-full bg-slate-900 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500 font-mono"
+              onChange={setImageUrl}
+              label="Featured Story Image (From Computer)"
+              helperText="Upload JPG, PNG, WEBP from your computer to be the main headline image"
+              required
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-850">
               <div>
                 <label className="block text-[11px] text-slate-400 mb-0.5">
                   Image Caption (English)

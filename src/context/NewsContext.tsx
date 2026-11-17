@@ -37,6 +37,7 @@ export interface SiteSettings {
   siteNameEn: string;
   taglineNp: string;
   taglineEn: string;
+  logoUrl?: string;
   pressCouncilRegd: string;
   infoDeptRegd: string;
   companyRegd: string;
@@ -118,6 +119,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   siteNameEn: "Sano Kura",
   taglineNp: "सत्य, तथ्य र निष्पक्ष समाचारको संवाहक",
   taglineEn: "True, Objective & Unbiased News Portal",
+  logoUrl: "",
   pressCouncilRegd: "१४२५/०८०-८१",
   infoDeptRegd: "२१३०/०७९-८०",
   companyRegd: "२३८०१/०७९/०८०",

@@ -12,6 +12,7 @@ import {
   ShieldAlert,
   Radio,
 } from "lucide-react";
+import ImageUpload from "@/components/admin/ImageUpload";
 import { useNews } from "@/context/NewsContext";
 
 export default function AdminBreakingPage() {
@@ -19,6 +20,9 @@ export default function AdminBreakingPage() {
 
   const [instantAlertEn, setInstantAlertEn] = useState("");
   const [instantAlertNp, setInstantAlertNp] = useState("");
+  const [breakingImage, setBreakingImage] = useState(
+    "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80"
+  );
   const [created, setCreated] = useState(false);
 
   const breakingArticles = articles.filter((a) => a.isBreaking);
@@ -51,8 +55,7 @@ export default function AdminBreakingPage() {
       },
       category: "politics",
       categoryName: { np: "राजनीति", en: "Politics" },
-      image:
-        "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+      image: breakingImage || "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
       imageCaption: { np: "ताजा ब्रेकिङ समाचार।", en: "Breaking news alert." },
       author: {
         name: { np: "सानो कुरा डेस्क", en: "Sano Kura Desk" },
@@ -137,9 +140,18 @@ export default function AdminBreakingPage() {
             />
           </div>
 
+          <div className="bg-slate-950/70 p-3 rounded-xl border border-slate-850">
+            <ImageUpload
+              value={breakingImage}
+              onChange={setBreakingImage}
+              label="Flash Alert Photo (From Computer)"
+              helperText="Upload breaking alert snapshot or thumbnail from your computer"
+            />
+          </div>
+
           <button
             type="submit"
-            className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg shadow-red-900/40 transition flex items-center gap-2"
+            className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg shadow-red-900/40 transition flex items-center gap-2 cursor-pointer"
           >
             <Zap className="w-4 h-4" />
             <span>Broadcast Flash Alert</span>

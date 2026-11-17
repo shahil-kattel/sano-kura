@@ -38,21 +38,19 @@ export default function AdminCommentsPage() {
         <div className="flex items-center gap-1.5 text-xs">
           <button
             onClick={() => setFilter("all")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition border ${
-              filter === "all"
-                ? "bg-purple-600 border-purple-500 text-white shadow-md shadow-purple-900/30"
-                : "bg-slate-800 border-slate-700 text-slate-300 hover:text-white"
-            }`}
+            className={`px-3 py-1.5 rounded-lg font-bold transition border ${filter === "all"
+              ? "bg-purple-600 border-purple-500 text-white shadow-md shadow-purple-900/30"
+              : "bg-slate-800 border-slate-700 text-slate-300 hover:text-white"
+              }`}
           >
             All ({comments.length})
           </button>
           <button
             onClick={() => setFilter("approved")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition border ${
-              filter === "approved"
-                ? "bg-purple-600 border-purple-500 text-white shadow-md shadow-purple-900/30"
-                : "bg-slate-800 border-slate-700 text-slate-300 hover:text-white"
-            }`}
+            className={`px-3 py-1.5 rounded-lg font-bold transition border ${filter === "approved"
+              ? "bg-purple-600 border-purple-500 text-white shadow-md shadow-purple-900/30"
+              : "bg-slate-800 border-slate-700 text-slate-300 hover:text-white"
+              }`}
           >
             Approved ({comments.filter((c) => c.status === "approved").length})
           </button>

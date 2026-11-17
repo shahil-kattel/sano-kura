@@ -11,12 +11,14 @@ import {
   Calendar,
   Newspaper,
 } from "lucide-react";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 export default function AdminEPaperPage() {
   const [editionDateNp, setEditionDateNp] = useState("२०८१ मंसिर २, मंगलबार");
   const [editionDateEn, setEditionDateEn] = useState("Tuesday, Nov 17, 2026");
   const [volume, setVolume] = useState("Vol III, Issue 284");
   const [price, setPrice] = useState("Rs 10/-");
+  const [frontPageImage, setFrontPageImage] = useState("");
   const [leadStoryTitle, setLeadStoryTitle] = useState(
     "Nepal Clean Energy Export: Historic Trilateral Electricity Pact with India & Bangladesh Takes Effect"
   );
@@ -124,6 +126,15 @@ export default function AdminEPaperPage() {
               value={leadStoryTitle}
               onChange={(e) => setLeadStoryTitle(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 text-white rounded-lg px-3 py-2 text-xs font-semibold"
+            />
+          </div>
+
+          <div className="pt-2">
+            <ImageUpload
+              value={frontPageImage}
+              onChange={setFrontPageImage}
+              label="Front-Page Broadsheet Scan (From Computer)"
+              helperText="Upload the daily high-resolution newspaper front page scanned from your computer"
             />
           </div>
 

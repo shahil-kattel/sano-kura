@@ -11,6 +11,7 @@ import {
   ExternalLink,
   CheckCircle,
 } from "lucide-react";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 interface AdminMediaItem {
   id: string;
@@ -194,16 +195,12 @@ export default function AdminGalleryPage() {
             </div>
 
             <div>
-              <label className="block font-bold text-slate-300 mb-1">
-                Media Image/Video URL *
-              </label>
-              <input
-                type="url"
-                required
+              <ImageUpload
                 value={image}
-                onChange={(e) => setImage(e.target.value)}
-                placeholder="https://images.unsplash.com/..."
-                className="w-full bg-slate-950 border border-slate-800 text-white rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-red-500"
+                onChange={setImage}
+                label="Gallery Media (From Computer)"
+                helperText="Upload image or poster snapshot from your computer"
+                required
               />
             </div>
 

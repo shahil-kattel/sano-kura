@@ -13,6 +13,7 @@ import {
   Trash2,
   ExternalLink,
 } from "lucide-react";
+import ImageUpload from "@/components/admin/ImageUpload";
 import { useNews } from "@/context/NewsContext";
 
 export default function EditArticlePage() {
@@ -216,33 +217,30 @@ export default function EditArticlePage() {
           </div>
 
           {/* Category & Image */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">Category Desk</label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500"
-              >
-                {categories.map((c) => (
-                  <option key={c.slug} value={c.slug}>
-                    {c.name.en} ({c.name.np})
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-300 mb-1">Category Desk</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+              {categories.map((c) => (
+                <option key={c.slug} value={c.slug}>
+                  {c.name.en} ({c.name.np})
+                </option>
+              ))}
+            </select>
+          </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">
-                Featured Image URL
-              </label>
-              <input
-                type="url"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs font-mono"
-              />
-            </div>
+          {/* Featured Image Upload from Computer */}
+          <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+            <ImageUpload
+              value={imageUrl}
+              onChange={setImageUrl}
+              label="Featured Story Image (From Computer)"
+              helperText="Upload a new replacement image from your computer or keep existing"
+              required
+            />
           </div>
 
           {/* Content Paragraphs */}

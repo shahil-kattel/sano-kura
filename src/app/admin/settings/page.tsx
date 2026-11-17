@@ -16,6 +16,7 @@ import {
   FileCheck2,
   Globe2,
 } from "lucide-react";
+import ImageUpload from "@/components/admin/ImageUpload";
 import { useNews } from "@/context/NewsContext";
 
 export default function AdminSettingsPage() {
@@ -25,6 +26,7 @@ export default function AdminSettingsPage() {
   const [siteNameEn, setSiteNameEn] = useState(settings.siteNameEn);
   const [taglineNp, setTaglineNp] = useState(settings.taglineNp);
   const [taglineEn, setTaglineEn] = useState(settings.taglineEn);
+  const [logoUrl, setLogoUrl] = useState(settings.logoUrl || "");
   const [pressCouncilRegd, setPressCouncilRegd] = useState(settings.pressCouncilRegd);
   const [infoDeptRegd, setInfoDeptRegd] = useState(settings.infoDeptRegd);
   const [companyRegd, setCompanyRegd] = useState(settings.companyRegd);
@@ -42,6 +44,7 @@ export default function AdminSettingsPage() {
       siteNameEn,
       taglineNp,
       taglineEn,
+      logoUrl,
       pressCouncilRegd,
       infoDeptRegd,
       companyRegd,
@@ -167,6 +170,16 @@ export default function AdminSettingsPage() {
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white font-normal focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
+          </div>
+
+          {/* Official Publication Logo Upload */}
+          <div className="pt-4 border-t border-slate-850">
+            <ImageUpload
+              value={logoUrl}
+              onChange={setLogoUrl}
+              label="Official Publication Logo (From Computer)"
+              helperText="Upload transparent PNG, SVG, or high-res JPG logo to display on the public website header"
+            />
           </div>
         </div>
 
