@@ -1,26 +1,42 @@
-# सानो कुरा (Sano Kura) - Nepali Digital News Portal
+# सानो कुरा (Sano Kura) - Nepali Digital News Portal & Newsroom CMS
 
-**सानो कुरा (Sano Kura)** is a modern, high-performance, full-featured Nepali news website built with Next.js 14, React, TypeScript, and Tailwind CSS. The primary language is **Nepali (नेपाली)** with seamless instant translation to **English** at the click of a button.
+**सानो कुरा (Sano Kura)** is a modern, high-performance, full-featured Nepali news website and comprehensive newsroom CMS built with **Next.js 14 (App Router)**, **React 18**, **TypeScript**, and **Tailwind CSS**. The primary language is **Nepali (नेपाली)** with seamless instant translation to **English** at the click of a button.
 
 🔗 **GitHub Repository:** [https://github.com/shahil-kattel/sano-kura](https://github.com/shahil-kattel/sano-kura)
 
 ---
 
-## 🌟 Key Features
+## 🛠️ Complete Admin CMS Panel (`/admin`)
+
+The portal includes a dedicated, full-screen Newsroom Content Management System (CMS) located at [`/admin`](http://localhost:3000/admin) with real-time site synchronization:
+
+| Admin Section | Path | Capabilities |
+| :--- | :--- | :--- |
+| **ड्यासबोर्ड (Dashboard)** | `/admin` | Total articles count, active breaking count, live NEPSE index, pending comments counter, quick action buttons, recent published articles, and moderation desk |
+| **सबै समाचार (Articles Manager)** | `/admin/news` | Searchable, category-filtered, and status-filtered table of all stories with 1-click toggles for Breaking, Lead Story, and Trending, plus edit and delete actions |
+| **नयाँ समाचार (Write Article)** | `/admin/news/new` | Full bilingual news authoring form (Nepali & English headlines, subtitles, excerpts, rich paragraphs), category selection, province assignment, photo URL & caption, author details, and tags |
+| **समाचार सम्पादन (Edit Article)** | `/admin/news/edit/[id]` | Pre-populated editor to update any live article's text, category, image, or flags with instant live website updates |
+| **विधा व्यवस्थापन (Categories)** | `/admin/categories` | Add, edit, or delete news categories with custom brand colors, bilingual names, and URL slugs |
+| **ताजा / ब्रेकिङ नियन्त्रक (Breaking Ticker)** | `/admin/breaking` | Real-time breaking news control: broadcast urgent flash alerts immediately to the top red ticker, or promote/demote existing stories with 1 click |
+| **बजार भाउ सम्पादक (Market Rates)** | `/admin/markets` | Update live NEPSE index, point changes, and turnover; fine gold and silver bullion rates per tola/10g; and NRB foreign exchange rates (USD, EUR, GBP, AED, QAR, AUD) |
+| **मिडिया ग्यालरी (Gallery Manager)** | `/admin/gallery` | Add photo stories and video spotlights with custom photo credits, locations, and descriptions |
+| **टिप्पणी प्रमाणीकरण (Comments)** | `/admin/comments` | Reader feedback moderation desk to approve, review, or delete reader comments |
+| **ई-कागज व्यवस्थापन (E-Paper)** | `/admin/epaper` | Manage daily digital print newspaper editions, dates, volume/issue numbers, and front-page lead banners |
+| **साइट सेटिङहरू (Site Settings)** | `/admin/settings` | Configure portal name (NP/EN), taglines, Press Council Nepal & Dept. of Information registration numbers, PAN, office addresses, phone numbers, and editorial emails |
+
+---
+
+## 🌟 Public Portal Features
 
 ### 1. 🇳🇵 Bilingual Support (नेपाली / English)
-- **Primary Language:** Authentic Nepali typography (Devanagari / Mukta font), Bikram Sambat (वि.सं.) calendar dates, Nepali numerals (०, १, २...), and culturally accurate journalistic content.
-- **English Translation Toggle:** Instant switcher button (`नेपाली | English`) in header, navigation bar, and directly on article reading pages.
-- Converts all navigation headers, dates, news titles, excerpts, full body articles, tags, authors, and interface elements seamlessly.
+- **Primary Language:** Authentic Nepali typography (Devanagari / Mukta font), Bikram Sambat (वि.सं.) calendar dates (e.g., `२०८१ मंसिर २ गते, मंगलबार`), and Nepali numerals (`०, १, २...`).
+- **Instant Translation:** Header, navbar, and article-level `नेपाली | English` toggle switches all content seamlessly.
 
 ### 2. 📰 Complete News Portal Sections & Pages
 Every single page and link opens when clicked:
 - **गृहपृष्ठ (Home):** Breaking news flash ticker, Lead hero story, Trending/Most Read numbered sidebar (१, २, ३, ४, ५), Special Highlights, Politics, Economy, Sports, Columns, Photo/Video spotlights.
 - **सातै प्रदेश (7 Provinces Interactive News):** Dedicated coverage for Koshi, Madhesh, Bagmati, Gandaki, Lumbini, Karnali, and Sudurpashchim provinces.
-- **बजार परिसूचक (Live Market Widgets):**
-  - **नेप्से (NEPSE Index):** Live index ticker, turnover, and top market movers.
-  - **सुन/चाँदी (Bullion):** Fine Gold (छापावाल सुन) and Silver (चाँदी) rates per tola / 10g.
-  - **विदेशी मुद्रा (Forex):** Nepal Rastra Bank USD, EUR, GBP, AED, QAR exchange rates.
+- **बजार परिसूचक (Live Market Widgets):** Live NEPSE stock ticker, bullion gold/silver rates, and foreign exchange rates.
 - **समाचार विधा (Categories):**
   - [राजनीति (Politics)](/category/politics)
   - [समाज (Society)](/category/society)
@@ -31,11 +47,7 @@ Every single page and link opens when clicked:
   - [विश्व (World News)](/category/world)
   - [प्रविधि (Technology)](/category/technology)
   - [जीवनशैली (Lifestyle & Health)](/category/lifestyle)
-- **समाचार विस्तृत पृष्ठ (Article Detail):**
-  - Multiple in-depth paragraphs, pull quotes, and high-resolution photo captions.
-  - Reading toolbar: Font size adjuster (A-, A, A+), Text-to-speech audio reader simulation, bookmark toggle, and social copy link.
-  - Interactive reader comment section with immediate submission and display.
-  - Related stories & trending sidebar.
+- **समाचार विस्तृत पृष्ठ (Article Detail):** Multi-paragraph rich text, pull quotes, photo credits, font size adjuster (A-, A, A+), audio text-to-speech simulation, bookmarking, and interactive reader comments.
 - **खोज (Live Search):** Real-time search across titles, content, categories, and tags in both Nepali and English (`/search?q=...`).
 - **फोटो तथा भिडियो (Multimedia Gallery):** High-definition photography and video stories with interactive fullscreen lightbox modal (`/gallery`).
 - **ई-कागज (Digital E-Paper):** Interactive newspaper daily print layout with page switcher (Pages 1 to 8), zoom in/out, and PDF download (`/epaper`).
@@ -46,16 +58,6 @@ Every single page and link opens when clicked:
 - **विज्ञापन (Advertise):** Media kit, readership demographics (50L+ readers), banner rate card, and sponsor packages (`/advertise`).
 - **गोपनीयता नीति (Privacy Policy):** Compliant digital privacy terms (`/privacy`).
 - **प्रयोगका सर्तहरू (Terms of Service):** Standard copyright and community conduct terms (`/terms`).
-
----
-
-## 🛠️ Tech Stack
-
-- **Framework:** Next.js 14 (App Router)
-- **Library:** React 18, TypeScript
-- **Styling:** Tailwind CSS, PostCSS, Google Fonts (Mukta & Inter)
-- **Icons:** Lucide React & Custom SVG
-- **Deployment:** Vercel / Node.js production ready
 
 ---
 
@@ -76,7 +78,8 @@ npm install
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+- Open Public Portal: [http://localhost:3000](http://localhost:3000)
+- Open Admin CMS: [http://localhost:3000/admin](http://localhost:3000/admin)
 
 ### 4. Build for production
 ```bash

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { NewsProvider } from "@/context/NewsContext";
+import { MainLayoutWrapper } from "@/components/MainLayoutWrapper";
 
 export const metadata: Metadata = {
   title: "सानो कुरा | Sano Kura - सत्य, तथ्य र निष्पक्ष नेपाली समाचार",
@@ -37,11 +37,9 @@ export default function RootLayout({
     <html lang="ne">
       <body className="min-h-screen flex flex-col bg-gray-50 text-gray-900 antialiased selection:bg-red-600 selection:text-white">
         <LanguageProvider>
-          <Header />
-          <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
-            {children}
-          </main>
-          <Footer />
+          <NewsProvider>
+            <MainLayoutWrapper>{children}</MainLayoutWrapper>
+          </NewsProvider>
         </LanguageProvider>
       </body>
     </html>

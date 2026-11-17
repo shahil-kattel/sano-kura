@@ -22,22 +22,20 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import {
-  getArticleBySlug,
-  getRelatedArticles,
-  getTrendingArticles,
-  NEWS_ARTICLES,
-} from "@/data/newsData";
+import { useNews } from "@/context/NewsContext";
 import { NewsCard } from "@/components/NewsCard";
 
 export default function ArticlePage() {
   const params = useParams();
   const slug = params?.slug as string;
   const { language, setLanguage, toggleLanguage, t, toNepaliNum } = useLanguage();
+  const { articles } = useNews();
 
-  const article = getArticleBySlug(slug) || NEWS_ARTICLES[0];
-  const relatedArticles = getRelatedArticles(article.slug, article.category, 3);
-  const trendingArticles = getTrendingArticles();
+  const article = articles.find((a) => a.slug === slug || a.id === slug) || articles[0];
+  const relatedArticles = articles
+    .filter((a) => a.slug !== article?.slug && a.category === article?.category)
+    .slice(0, 3);
+  const trendingArticles = [...articles].sort((a, b) => b.views - a.views).slice(0, 5);
 
   // Reader state
   const [fontSize, setFontSize] = useState<"normal" | "large" | "xlarge">("normal");

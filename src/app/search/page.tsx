@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Search, Home, ChevronRight, SlidersHorizontal, FileText } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { searchArticles, NewsArticle } from "@/data/newsData";
-import { CATEGORIES } from "@/data/categories";
+import { useNews } from "@/context/NewsContext";
+import { NewsArticle } from "@/data/newsData";
 import { NewsCard } from "@/components/NewsCard";
 
 function SearchContent() {
@@ -14,6 +14,7 @@ function SearchContent() {
   const router = useRouter();
   const initialQuery = searchParams?.get("q") || "";
   const { language, t, toNepaliNum } = useLanguage();
+  const { articles: allArticles, categories: allCategories } = useNews();
 
   const [query, setQuery] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -21,13 +22,29 @@ function SearchContent() {
 
   useEffect(() => {
     setQuery(initialQuery);
-    const matched = searchArticles(initialQuery);
+    const q = initialQuery.toLowerCase().trim();
+    let matched = allArticles;
+    if (q) {
+      matched = allArticles.filter((article) => {
+        return (
+          article.title.np.toLowerCase().includes(q) ||
+          article.title.en.toLowerCase().includes(q) ||
+          article.excerpt.np.toLowerCase().includes(q) ||
+          article.excerpt.en.toLowerCase().includes(q) ||
+          article.tags.np.some((t) => t.toLowerCase().includes(q)) ||
+          article.tags.en.some((t) => t.toLowerCase().includes(q)) ||
+          article.categoryName.np.toLowerCase().includes(q) ||
+          article.categoryName.en.toLowerCase().includes(q)
+        );
+      });
+    }
+
     if (selectedCategory === "all") {
       setResults(matched);
     } else {
       setResults(matched.filter((a) => a.category === selectedCategory));
     }
-  }, [initialQuery, selectedCategory]);
+  }, [initialQuery, selectedCategory, allArticles]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,7 +105,7 @@ function SearchContent() {
           >
             {language === "np" ? "सबै विधा" : "All Categories"}
           </button>
-          {CATEGORIES.map((cat) => (
+          {allCategories.map((cat) => (
             <button
               key={cat.slug}
               onClick={() => setSelectedCategory(cat.slug)}

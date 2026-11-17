@@ -14,34 +14,30 @@ import {
   Layers,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import {
-  NEWS_ARTICLES,
-  getLeadArticle,
-  getTrendingArticles,
-  getArticlesByCategory,
-} from "@/data/newsData";
+import { useNews } from "@/context/NewsContext";
 import { NewsCard } from "@/components/NewsCard";
 import { ProvinceSection } from "@/components/ProvinceSection";
 import { MarketWidgets } from "@/components/MarketWidgets";
 
 export default function HomePage() {
   const { language, t } = useLanguage();
+  const { articles } = useNews();
 
-  const leadArticle = getLeadArticle();
-  const trendingArticles = getTrendingArticles();
+  const leadArticle = articles.find((a) => a.isLead) || articles[0];
+  const trendingArticles = [...articles].sort((a, b) => b.views - a.views).slice(0, 5);
 
   // Category specific articles
-  const politicsArticles = getArticlesByCategory("politics");
-  const economyArticles = getArticlesByCategory("economy");
-  const sportsArticles = getArticlesByCategory("sports");
-  const opinionArticles = getArticlesByCategory("opinion");
-  const entArticles = getArticlesByCategory("entertainment");
-  const techArticles = getArticlesByCategory("technology");
-  const lifeArticles = getArticlesByCategory("lifestyle");
-  const societyArticles = getArticlesByCategory("society");
+  const politicsArticles = articles.filter((a) => a.category === "politics");
+  const economyArticles = articles.filter((a) => a.category === "economy");
+  const sportsArticles = articles.filter((a) => a.category === "sports");
+  const opinionArticles = articles.filter((a) => a.category === "opinion");
+  const entArticles = articles.filter((a) => a.category === "entertainment");
+  const techArticles = articles.filter((a) => a.category === "technology");
+  const lifeArticles = articles.filter((a) => a.category === "lifestyle");
+  const societyArticles = articles.filter((a) => a.category === "society");
 
   // Secondary highlights (excluding lead)
-  const secondaryArticles = NEWS_ARTICLES.filter((a) => a.id !== leadArticle.id).slice(0, 3);
+  const secondaryArticles = articles.filter((a) => a.id !== leadArticle?.id).slice(0, 3);
 
   return (
     <div className="space-y-10">

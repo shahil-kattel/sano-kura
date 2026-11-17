@@ -12,10 +12,11 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { CATEGORIES } from "@/data/categories";
+import { useNews } from "@/context/NewsContext";
 
 export const Footer: React.FC = () => {
   const { language, t } = useLanguage();
+  const { categories, settings } = useNews();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -117,7 +118,7 @@ export const Footer: React.FC = () => {
               {t("allCategories")}
             </h4>
             <div className="grid grid-cols-2 gap-2 text-xs">
-              {CATEGORIES.map((cat) => (
+              {categories.map((cat) => (
                 <Link
                   key={cat.slug}
                   href={`/category/${cat.slug}`}
@@ -179,6 +180,14 @@ export const Footer: React.FC = () => {
               <li>
                 <Link href="/terms" className="hover:text-red-400 transition block">
                   {t("termsOfService")}
+                </Link>
+              </li>
+              <li className="pt-2 border-t border-gray-800">
+                <Link
+                  href="/admin"
+                  className="text-red-400 hover:text-red-300 font-bold transition flex items-center gap-1"
+                >
+                  <span>⚙️ {language === "np" ? "एडमिन सीएमएस प्यानल" : "Admin CMS Panel"}</span>
                 </Link>
               </li>
             </ul>

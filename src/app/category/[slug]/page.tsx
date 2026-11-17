@@ -5,18 +5,18 @@ import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { ChevronRight, Home, Flame, Filter, SlidersHorizontal } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { CATEGORIES } from "@/data/categories";
-import { getArticlesByCategory, getTrendingArticles, NEWS_ARTICLES } from "@/data/newsData";
+import { useNews } from "@/context/NewsContext";
 import { NewsCard } from "@/components/NewsCard";
 
 export default function CategoryPage() {
   const params = useParams();
   const slug = params?.slug as string;
   const { language, t } = useLanguage();
+  const { articles: allArticles, categories: allCategories } = useNews();
 
-  const category = CATEGORIES.find((c) => c.slug === slug);
-  const articles = getArticlesByCategory(slug);
-  const trendingArticles = getTrendingArticles();
+  const category = allCategories.find((c) => c.slug === slug);
+  const articles = allArticles.filter((a) => a.category === slug);
+  const trendingArticles = [...allArticles].sort((a, b) => b.views - a.views).slice(0, 5);
 
   const [activeFilter, setActiveFilter] = useState<"all" | "latest" | "popular">("all");
 
@@ -44,8 +44,8 @@ export default function CategoryPage() {
   // Filtered articles
   let displayedArticles = [...articles];
   if (displayedArticles.length === 0) {
-    // If specifically no articles yet for this sub-category, provide related fallback from NEWS_ARTICLES
-    displayedArticles = NEWS_ARTICLES.slice(0, 3);
+    // If specifically no articles yet for this sub-category, provide related fallback from allArticles
+    displayedArticles = allArticles.slice(0, 3);
   }
 
   if (activeFilter === "popular") {
@@ -176,7 +176,7 @@ export default function CategoryPage() {
               {t("allCategories")}
             </h3>
             <div className="space-y-1.5 text-xs">
-              {CATEGORIES.map((cat) => (
+              {allCategories.map((cat) => (
                 <Link
                   key={cat.slug}
                   href={`/category/${cat.slug}`}

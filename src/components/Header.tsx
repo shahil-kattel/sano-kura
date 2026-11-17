@@ -15,13 +15,15 @@ import {
   Sparkles,
   Newspaper,
   ChevronDown,
+  Shield,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { CATEGORIES } from "@/data/categories";
+import { useNews } from "@/context/NewsContext";
 import { BreakingTicker } from "./BreakingTicker";
 
 export const Header: React.FC = () => {
   const { language, setLanguage, toggleLanguage, t, toNepaliNum } = useLanguage();
+  const { categories, markets, settings } = useNews();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -92,7 +94,9 @@ export const Header: React.FC = () => {
             <div className="hidden lg:flex items-center gap-2 text-gray-400 border-l border-gray-700 pl-3">
               <TrendingUp className="w-3.5 h-3.5 text-green-400" />
               <span>
-                {language === "np" ? "नेप्से: २,८१०.५० (+५२.४०)" : "NEPSE: 2,810.50 (+52.40)"}
+                {language === "np"
+                  ? `नेप्से: ${markets.nepse.index} (${markets.nepse.change})`
+                  : `NEPSE: ${markets.nepse.index} (${markets.nepse.change})`}
               </span>
             </div>
           </div>
@@ -105,6 +109,15 @@ export const Header: React.FC = () => {
             >
               <Newspaper className="w-3.5 h-3.5 text-red-400" />
               <span>{t("epaper")}</span>
+            </Link>
+
+            <Link
+              href="/admin"
+              className="flex items-center gap-1 hover:text-red-400 transition bg-red-950/80 hover:bg-red-900 border border-red-800/80 px-2.5 py-0.5 rounded text-red-200 font-semibold"
+              title="Admin CMS Portal"
+            >
+              <Shield className="w-3.5 h-3.5 text-yellow-400" />
+              <span>{language === "np" ? "एडमिन" : "Admin"}</span>
             </Link>
 
             <Link
@@ -251,7 +264,7 @@ export const Header: React.FC = () => {
               </Link>
 
               {/* All Categories */}
-              {CATEGORIES.map((cat) => {
+              {categories.map((cat) => {
                 const isActive = pathname === `/category/${cat.slug}`;
                 return (
                   <Link
@@ -358,7 +371,7 @@ export const Header: React.FC = () => {
             >
               🏠 {t("home")}
             </Link>
-            {CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
@@ -388,6 +401,13 @@ export const Header: React.FC = () => {
               className="p-2 rounded bg-gray-50 hover:bg-red-50 hover:text-red-600"
             >
               🔖 {t("bookmarks")}
+            </Link>
+            <Link
+              href="/admin"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2 rounded bg-red-100 text-red-800 font-bold hover:bg-red-200"
+            >
+              ⚙️ {language === "np" ? "एडमिन प्यानल" : "Admin Panel"}
             </Link>
           </div>
         </div>

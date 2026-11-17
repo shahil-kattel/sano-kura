@@ -4,11 +4,12 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Zap, ChevronRight, ChevronLeft } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { getBreakingNews } from "@/data/newsData";
+import { useNews } from "@/context/NewsContext";
 
 export const BreakingTicker: React.FC = () => {
   const { language, t } = useLanguage();
-  const breaking = getBreakingNews();
+  const { articles } = useNews();
+  const breaking = articles.filter((a) => a.isBreaking);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ export const BreakingTicker: React.FC = () => {
   }, [breaking.length]);
 
   if (breaking.length === 0) return null;
-  const current = breaking[currentIndex];
+  const current = breaking[currentIndex % breaking.length] || breaking[0];
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % breaking.length);
@@ -59,7 +60,7 @@ export const BreakingTicker: React.FC = () => {
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
           <span className="text-[11px] opacity-75 font-mono">
-            {currentIndex + 1}/{breaking.length}
+            {(currentIndex % breaking.length) + 1}/{breaking.length}
           </span>
           <button
             onClick={handleNext}

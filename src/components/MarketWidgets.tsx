@@ -1,34 +1,43 @@
 "use client";
 
 import React, { useState } from "react";
-import { TrendingUp, Coins, DollarSign, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { TrendingUp, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useNews } from "@/context/NewsContext";
 
 export const MarketWidgets: React.FC = () => {
-  const { language, toNepaliNum } = useLanguage();
+  const { language } = useLanguage();
+  const { markets } = useNews();
   const [activeTab, setActiveTab] = useState<"nepse" | "bullion" | "forex">("nepse");
 
-  const bullionData = [
-    { name: { np: "छापावाल सुन (१० ग्राम)", en: "Fine Gold (10g)" }, price: "१,४१,४६०", change: "+१,२००", isUp: true },
-    { name: { np: "छापावाल सुन (तोला)", en: "Fine Gold (Tola)" }, price: "१,६५,०००", change: "+१,४००", isUp: true },
-    { name: { np: "तेजाबी सुन (तोला)", en: "Tejabi Gold (Tola)" }, price: "१,६४,२००", change: "+१,४००", isUp: true },
-    { name: { np: "चाँदी (तोला)", en: "Silver (Tola)" }, price: "२,१००", change: "+२५", isUp: true },
-  ];
-
-  const forexData = [
-    { currency: "USD (अमेरिकी डलर)", code: "USD", buy: "१३४.२०", sell: "१३४.८०", isUp: true },
-    { currency: "EUR (युरो)", code: "EUR", buy: "१४१.५०", sell: "१४२.१५", isUp: false },
-    { currency: "GBP (पाउन्ड)", code: "GBP", buy: "१६९.८०", sell: "१७०.५५", isUp: true },
-    { currency: "AED (दिरहाम)", code: "AED", buy: "३६.५४", sell: "३६.७०", isUp: true },
-    { currency: "QAR (रियाल)", code: "QAR", buy: "३६.८६", sell: "३७.०२", isUp: true },
-    { currency: "AUD (अस्ट्रेलियन डलर)", code: "AUD", buy: "८६.९०", sell: "८७.३०", isUp: false },
+  const bullionList = [
+    {
+      name: { np: "छापावाल सुन (१० ग्राम)", en: "Fine Gold (10g)" },
+      price: markets.gold.fine10g,
+      change: markets.gold.change,
+    },
+    {
+      name: { np: "छापावाल सुन (तोला)", en: "Fine Gold (Tola)" },
+      price: markets.gold.fineTola,
+      change: markets.gold.change,
+    },
+    {
+      name: { np: "तेजाबी सुन (तोला)", en: "Tejabi Gold (Tola)" },
+      price: markets.gold.tejabiTola,
+      change: markets.gold.change,
+    },
+    {
+      name: { np: "चाँदी (तोला)", en: "Silver (Tola)" },
+      price: markets.gold.silverTola,
+      change: "+२५",
+    },
   ];
 
   const nepseTopMovers = [
-    { symbol: "CHCL", name: "Chilime Hydro", ltp: "५४०.०", change: "+९.८%", isUp: true },
-    { symbol: "NABIL", name: "Nabil Bank", ltp: "६८०.०", change: "+३.४%", isUp: true },
-    { symbol: "SHIVM", name: "Shivam Cements", ltp: "६१०.५", change: "+५.१%", isUp: true },
-    { symbol: "HDL", name: "Himalayan Distillery", ltp: "१,५२०.०", change: "+२.२%", isUp: true },
+    { symbol: "CHCL", name: "Chilime Hydro", ltp: "५४०.०", change: "+९.८%" },
+    { symbol: "NABIL", name: "Nabil Bank", ltp: "६८०.०", change: "+३.४%" },
+    { symbol: "SHIVM", name: "Shivam Cements", ltp: "६१०.५", change: "+५.१%" },
+    { symbol: "HDL", name: "Himalayan Distillery", ltp: "१,५२०.०", change: "+२.२%" },
   ];
 
   return (
@@ -43,7 +52,9 @@ export const MarketWidgets: React.FC = () => {
           <button
             onClick={() => setActiveTab("nepse")}
             className={`px-2.5 py-1 rounded-md transition ${
-              activeTab === "nepse" ? "bg-white text-red-600 shadow-2xs" : "text-gray-600 hover:text-gray-900"
+              activeTab === "nepse"
+                ? "bg-white text-red-600 shadow-2xs"
+                : "text-gray-600 hover:text-gray-900"
             }`}
           >
             {language === "np" ? "नेप्से" : "NEPSE"}
@@ -51,7 +62,9 @@ export const MarketWidgets: React.FC = () => {
           <button
             onClick={() => setActiveTab("bullion")}
             className={`px-2.5 py-1 rounded-md transition ${
-              activeTab === "bullion" ? "bg-white text-red-600 shadow-2xs" : "text-gray-600 hover:text-gray-900"
+              activeTab === "bullion"
+                ? "bg-white text-red-600 shadow-2xs"
+                : "text-gray-600 hover:text-gray-900"
             }`}
           >
             {language === "np" ? "सुन/चाँदी" : "Bullion"}
@@ -59,7 +72,9 @@ export const MarketWidgets: React.FC = () => {
           <button
             onClick={() => setActiveTab("forex")}
             className={`px-2.5 py-1 rounded-md transition ${
-              activeTab === "forex" ? "bg-white text-red-600 shadow-2xs" : "text-gray-600 hover:text-gray-900"
+              activeTab === "forex"
+                ? "bg-white text-red-600 shadow-2xs"
+                : "text-gray-600 hover:text-gray-900"
             }`}
           >
             {language === "np" ? "मुद्रा विनिमय" : "Forex"}
@@ -73,15 +88,17 @@ export const MarketWidgets: React.FC = () => {
           <div className="bg-green-50 border border-green-200 rounded-xl p-3 flex items-center justify-between">
             <div>
               <p className="text-xs text-green-800 font-medium">NEPSE INDEX</p>
-              <p className="text-xl font-black text-green-700">२,८१०.५०</p>
+              <p className="text-xl font-black text-green-700">{markets.nepse.index}</p>
             </div>
             <div className="text-right">
               <span className="inline-flex items-center text-xs font-bold bg-green-200 text-green-900 px-2 py-0.5 rounded">
                 <ArrowUpRight className="w-3.5 h-3.5 mr-0.5" />
-                +५२.४० (+१.९०%)
+                {markets.nepse.change} ({markets.nepse.percent})
               </span>
               <p className="text-[11px] text-gray-500 mt-1">
-                {language === "np" ? "कारोबार: रु १२.३५ अर्ब" : "Turnover: Rs 12.35B"}
+                {language === "np"
+                  ? `कारोबार: रु ${markets.nepse.turnover}`
+                  : `Turnover: Rs ${markets.nepse.turnover}`}
               </p>
             </div>
           </div>
@@ -106,7 +123,7 @@ export const MarketWidgets: React.FC = () => {
       {/* BULLION TAB */}
       {activeTab === "bullion" && (
         <div className="space-y-2.5 text-xs">
-          {bullionData.map((item, idx) => (
+          {bullionList.map((item, idx) => (
             <div
               key={idx}
               className="flex items-center justify-between p-2 rounded-lg bg-gray-50 border border-gray-100"
@@ -134,7 +151,7 @@ export const MarketWidgets: React.FC = () => {
             <span className="text-center">{language === "np" ? "खरिद दर" : "Buying"}</span>
             <span className="text-right">{language === "np" ? "बिक्री दर" : "Selling"}</span>
           </div>
-          {forexData.map((item) => (
+          {markets.forex.map((item) => (
             <div key={item.code} className="grid grid-cols-3 py-1 items-center border-b border-gray-50">
               <span className="font-bold text-gray-800">{item.code}</span>
               <span className="text-center text-gray-700">{item.buy}</span>
