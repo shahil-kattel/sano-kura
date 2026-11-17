@@ -5,19 +5,20 @@ import Link from "next/link";
 import {
   Settings,
   Save,
-  CheckCircle,
+  CheckCircle2,
   ShieldCheck,
-  Building,
+  Building2,
   Phone,
   Mail,
   MapPin,
   ExternalLink,
+  Sparkles,
+  FileCheck2,
+  Globe2,
 } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 import { useNews } from "@/context/NewsContext";
 
 export default function AdminSettingsPage() {
-  const { language } = useLanguage();
   const { settings, updateSettings } = useNews();
 
   const [siteNameNp, setSiteNameNp] = useState(settings.siteNameNp);
@@ -56,210 +57,275 @@ export default function AdminSettingsPage() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      {/* Header Banner */}
+      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-850 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight flex items-center gap-2">
-            <Settings className="w-6 h-6 text-red-600" />
-            <span>{language === "np" ? "वेबसाइट सेटिङ तथा कानुनी विवरण" : "Portal Settings & Identity"}</span>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">
+              <Settings className="w-3.5 h-3.5" />
+              Site Administration
+            </span>
+            <span className="text-xs text-slate-500">• Global Settings</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Portal Settings & Compliance
           </h1>
-          <p className="text-xs text-gray-500 mt-1">
-            {language === "np"
-              ? "वेबसाइटको नाम, स्लोगन, प्रेस काउन्सिल दर्ता नम्बर, फोन, इमेल र ठेगाना व्यवस्थापन गर्नुहोस्।"
-              : "Manage website branding, statutory Press Council numbers, contact info, and legal filings."}
+          <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            Configure portal identity, statutory Press Council registrations, official contact coordinates, and editorial newsroom desk information.
           </p>
         </div>
 
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-1.5 text-xs text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded-xl font-bold transition"
+          className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-slate-600 px-4 py-2.5 rounded-xl text-xs font-semibold transition shadow-sm"
         >
-          <span>{language === "np" ? "लाइभ हेर्नुहोस्" : "Live View"}</span>
-          <ExternalLink className="w-3.5 h-3.5" />
+          <span>View Public Portal</span>
+          <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
         </Link>
       </div>
 
+      {/* Save Success Banner */}
       {saved && (
-        <div className="p-4 bg-green-600 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-xs animate-in fade-in">
-          <CheckCircle className="w-5 h-5" />
-          <span>
-            {language === "np"
-              ? "सेटिङहरू सफलतापूर्वक सुरक्षित गरियो र पोर्टलभर लागु भयो!"
-              : "Settings successfully saved and synchronized across the portal!"}
-          </span>
+        <div className="p-4 bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 rounded-2xl text-xs sm:text-sm font-semibold flex items-center gap-3 shadow-lg animate-in fade-in">
+          <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+          <span>Portal settings and compliance records saved successfully and synchronized across the entire site!</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* 1. BRAND IDENTITY */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs space-y-4">
-          <h2 className="text-sm font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
-            <Building className="w-4 h-4 text-red-600" />
-            <span>ब्रान्ड तथा पहिचान (Brand Identity)</span>
-          </h2>
+        {/* 1. BRAND IDENTITY & LOCALIZATION */}
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-sm space-y-5">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400">
+                <Building2 className="w-4 h-4" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-white">Brand Identity & Portal Names</h2>
+                <p className="text-xs text-slate-400">Public name and publication slogans across English and Nepali locales</p>
+              </div>
+            </div>
+            <span className="text-xs px-2.5 py-1 bg-slate-800 text-slate-400 rounded-md border border-slate-700/60 font-mono">
+              Locale sync active
+            </span>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-xs">
             <div>
-              <label className="block font-bold text-gray-700 mb-1">
-                पत्रिकाको नाम (नेपालीमा)
+              <label className="block font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
+                <span>Portal Name (Nepali)</span>
+                <span className="text-[10px] text-red-400 font-normal">Primary Display</span>
               </label>
               <input
                 type="text"
                 required
                 value={siteNameNp}
                 onChange={(e) => setSiteNameNp(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 font-bold"
+                placeholder="e.g. सानो कुरा"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white font-medium focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-gray-700 mb-1">
-                Portal Name (English)
+              <label className="block font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
+                <span>Portal Name (English)</span>
+                <span className="text-[10px] text-slate-400 font-normal">International</span>
               </label>
               <input
                 type="text"
                 required
                 value={siteNameEn}
                 onChange={(e) => setSiteNameEn(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 font-bold"
+                placeholder="e.g. Sano Kura"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white font-medium focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-gray-700 mb-1">
-                स्लोगन / मोटो (नेपालीमा)
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                Editorial Tagline / Slogan (Nepali)
               </label>
               <input
                 type="text"
                 value={taglineNp}
                 onChange={(e) => setTaglineNp(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="e.g. सत्य, तथ्य र निष्पक्ष नेपाली डिजिटल पत्रिका"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white font-normal focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-gray-700 mb-1">
-                Tagline / Slogan (English)
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                Editorial Tagline / Slogan (English)
               </label>
               <input
                 type="text"
                 value={taglineEn}
                 onChange={(e) => setTaglineEn(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="e.g. Accurate, Independent & Trustworthy Nepali Digital Journal"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white font-normal focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
           </div>
         </div>
 
-        {/* 2. STATUTORY REGISTRATIONS */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs space-y-4">
-          <h2 className="text-sm font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-green-600" />
-            <span>कानुनी तथा दर्ता विवरण (Statutory Regulatory Registrations)</span>
-          </h2>
+        {/* 2. STATUTORY & REGULATORY FILINGS */}
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-sm space-y-5">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-white">Statutory Regulatory Registrations</h2>
+                <p className="text-xs text-slate-400">Official Government of Nepal press, company, and tax accreditations</p>
+              </div>
+            </div>
+            <span className="text-xs px-2.5 py-1 bg-emerald-500/10 text-emerald-400 rounded-md border border-emerald-500/20 font-medium">
+              Legal Compliance
+            </span>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
             <div>
-              <label className="block font-bold text-gray-700 mb-1">प्रेस काउन्सिल दर्ता नं.</label>
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                Press Council Regd No.
+              </label>
               <input
                 type="text"
                 value={pressCouncilRegd}
                 onChange={(e) => setPressCouncilRegd(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="e.g. १२३/०८०-८१"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-gray-700 mb-1">सूचना तथा प्रसारण विभाग दर्ता</label>
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                Dept of Information Regd
+              </label>
               <input
                 type="text"
                 value={infoDeptRegd}
                 onChange={(e) => setInfoDeptRegd(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="e.g. ४५६/०८०-८१"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-gray-700 mb-1">कम्पनी रजिस्ट्रार दर्ता नं.</label>
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                Company Registrar Regd
+              </label>
               <input
                 type="text"
                 value={companyRegd}
                 onChange={(e) => setCompanyRegd(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="e.g. ७८९/०८०"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-gray-700 mb-1">PAN / VAT स्थायी लेखा नं.</label>
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                PAN / VAT Number
+              </label>
               <input
                 type="text"
                 value={panNumber}
                 onChange={(e) => setPanNumber(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="e.g. ६०१२३४५६७"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
           </div>
         </div>
 
-        {/* 3. CONTACT & NEWSROOM DESK */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs space-y-4">
-          <h2 className="text-sm font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
-            <Phone className="w-4 h-4 text-blue-600" />
-            <span>सम्पर्क तथा कार्यालय विवरण (Contact & Newsroom Information)</span>
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-            <div>
-              <label className="block font-bold text-gray-700 mb-1">सम्पर्क फोन नम्बरहरू</label>
-              <input
-                type="text"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
-              />
+        {/* 3. CONTACT & NEWSROOM INFORMATION */}
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-sm space-y-5">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                <Phone className="w-4 h-4" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-white">Contact & Newsroom Information</h2>
+                <p className="text-xs text-slate-400">Public reader helplines, editorial offices, and commercial communication channels</p>
+              </div>
             </div>
+            <span className="text-xs px-2.5 py-1 bg-blue-500/10 text-blue-400 rounded-md border border-blue-500/20 font-medium">
+              Newsroom Desk
+            </span>
+          </div>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-xs">
             <div>
-              <label className="block font-bold text-gray-700 mb-1">केन्द्रीय कार्यालय ठेगाना</label>
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                Headquarters Address
+              </label>
               <input
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="e.g. नयाँ बानेश्वर, काठमाडौँ, नेपाल"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-gray-700 mb-1">समाचार कक्ष इमेल (Editorial)</label>
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                Editorial Phone / Hotline
+              </label>
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="e.g. +९७७-१-४१२३४५६, ९८५१२३४५६७"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+              />
+            </div>
+
+            <div>
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                Editorial & Newsroom Email
+              </label>
               <input
                 type="email"
                 value={emailNews}
                 onChange={(e) => setEmailNews(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="news@sanokura.com"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-gray-700 mb-1">विज्ञापन विभाग इमेल (Ads)</label>
+              <label className="block font-semibold text-slate-300 mb-1.5">
+                Advertising & Marketing Email
+              </label>
               <input
                 type="email"
                 value={emailAds}
                 onChange={(e) => setEmailAds(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2"
+                placeholder="ads@sanokura.com"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
           </div>
         </div>
 
-        {/* Submit Button */}
-        <div className="flex justify-end">
+        {/* Submit Actions */}
+        <div className="flex items-center justify-between pt-2">
+          <p className="text-xs text-slate-500">
+            Changes take effect immediately across public headers, footers, statutory notices, and contact pages.
+          </p>
+
           <button
             type="submit"
-            className="bg-red-600 hover:bg-red-700 text-white font-black text-xs sm:text-sm px-8 py-3 rounded-xl shadow-xs transition flex items-center gap-2"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shadow-lg shadow-red-500/20 transition cursor-pointer"
           >
             <Save className="w-4 h-4" />
-            <span>सेटिङहरू सुरक्षित गर्नुहोस् (Save Settings)</span>
+            <span>Save Portal Settings</span>
           </button>
         </div>
       </form>

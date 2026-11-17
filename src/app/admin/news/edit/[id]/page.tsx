@@ -13,14 +13,12 @@ import {
   Trash2,
   ExternalLink,
 } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 import { useNews } from "@/context/NewsContext";
 
 export default function EditArticlePage() {
   const params = useParams();
   const id = params?.id as string;
   const router = useRouter();
-  const { language } = useLanguage();
   const { articles, categories, updateArticle, deleteArticle } = useNews();
 
   const article = articles.find((a) => a.id === id || a.slug === id);
@@ -60,10 +58,10 @@ export default function EditArticlePage() {
 
   if (!article) {
     return (
-      <div className="py-12 text-center bg-white rounded-2xl border border-gray-200">
-        <h2 className="text-xl font-bold text-gray-800 mb-2">समाचार फेला परेन (Article Not Found)</h2>
-        <Link href="/admin/news" className="text-xs text-red-600 font-bold hover:underline">
-          समाचार सूचीमा फर्कनुहोस्
+      <div className="py-16 text-center bg-slate-900 border border-slate-800 rounded-2xl">
+        <h2 className="text-xl font-bold text-slate-200 mb-2">Article Not Found</h2>
+        <Link href="/admin/news" className="text-xs text-red-400 font-bold hover:underline">
+          Return to Articles Manager
         </Link>
       </div>
     );
@@ -71,8 +69,13 @@ export default function EditArticlePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const paragraphsNp = contentNp.split("\n\n").map((p) => p.trim()).filter(Boolean);
-    const paragraphsEn = contentEn ? contentEn.split("\n\n").map((p) => p.trim()).filter(Boolean) : paragraphsNp;
+    const paragraphsNp = contentNp
+      ? contentNp.split("\n\n").map((p) => p.trim()).filter(Boolean)
+      : [contentEn];
+    const paragraphsEn = contentEn
+      ? contentEn.split("\n\n").map((p) => p.trim()).filter(Boolean)
+      : paragraphsNp;
+
     const catObj = categories.find((c) => c.slug === category);
 
     updateArticle(article.id, {
@@ -110,26 +113,26 @@ export default function EditArticlePage() {
       <div className="flex items-center justify-between">
         <Link
           href="/admin/news"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-red-600 transition"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>{language === "np" ? "समाचार सूचीमा फर्कनुहोस्" : "Back to Articles"}</span>
+          <span>Back to Articles</span>
         </Link>
 
         <div className="flex items-center gap-2">
           <Link
             href={`/news/${article.slug}`}
             target="_blank"
-            className="flex items-center gap-1 text-xs text-gray-600 hover:text-red-600 bg-white border border-gray-200 px-3 py-1.5 rounded-lg"
+            className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg transition"
           >
-            <span>लाइभ हेर्नुहोस्</span>
+            <span>View Live</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </Link>
 
           {success && (
-            <div className="flex items-center gap-1 text-xs font-bold text-green-700 bg-green-100 px-3 py-1.5 rounded-lg">
+            <div className="flex items-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-lg">
               <CheckCircle className="w-4 h-4" />
-              <span>परिमार्जन सुरक्षित भयो!</span>
+              <span>Modifications Saved!</span>
             </div>
           )}
         </div>
@@ -137,54 +140,55 @@ export default function EditArticlePage() {
 
       {/* Edit Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 shadow-xs space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
-              <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
-                {language === "np" ? "समाचार सम्पादन गर्नुहोस्" : "Edit News Article"}
+              <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                Edit News Article
               </h1>
-              <p className="text-xs text-gray-500 mt-1">ID: {article.id} • Slug: {article.slug}</p>
+              <p className="text-xs text-slate-400 mt-1">ID: {article.id} • Slug: {article.slug}</p>
             </div>
 
             <button
               type="button"
               onClick={() => {
-                if (confirm("Delete article?")) {
+                if (confirm("Delete article permanently?")) {
                   deleteArticle(article.id);
                   router.push("/admin/news");
                 }
               }}
-              className="text-xs text-red-600 hover:text-red-700 border border-red-200 px-3 py-1.5 rounded-lg flex items-center gap-1"
+              className="text-xs text-rose-400 hover:text-rose-300 border border-rose-500/30 bg-rose-500/10 px-3 py-1.5 rounded-lg flex items-center gap-1 transition"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              <span>हटाउनुहोस् (Delete)</span>
+              <span>Delete Story</span>
             </button>
           </div>
 
-          {/* Title */}
+          {/* Headlines */}
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-gray-800 mb-1">
-                समाचार शीर्षक (नेपाली) *
+              <label className="block text-xs font-bold text-slate-300 mb-1">
+                Headline (English) *
+              </label>
+              <input
+                type="text"
+                required
+                value={titleEn}
+                onChange={(e) => setTitleEn(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-red-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">
+                Headline in Nepali (नेपाली शीर्षक) *
               </label>
               <input
                 type="text"
                 required
                 value={titleNp}
                 onChange={(e) => setTitleNp(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-red-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-gray-800 mb-1">
-                Headline (English Translation)
-              </label>
-              <input
-                type="text"
-                value={titleEn}
-                onChange={(e) => setTitleEn(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 text-sm font-nepali focus:outline-none focus:ring-2 focus:ring-red-500"
               />
             </div>
           </div>
@@ -192,21 +196,21 @@ export default function EditArticlePage() {
           {/* Subtitles */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">उप-शीर्षक (नेपाली)</label>
-              <input
-                type="text"
-                value={subtitleNp}
-                onChange={(e) => setSubtitleNp(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-xs"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">Subtitle (English)</label>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Subtitle (English)</label>
               <input
                 type="text"
                 value={subtitleEn}
                 onChange={(e) => setSubtitleEn(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-xs"
+                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">उप-शीर्षक (नेपाली)</label>
+              <input
+                type="text"
+                value={subtitleNp}
+                onChange={(e) => setSubtitleNp(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs font-nepali focus:outline-none focus:ring-2 focus:ring-red-500"
               />
             </div>
           </div>
@@ -214,29 +218,29 @@ export default function EditArticlePage() {
           {/* Category & Image */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">विधा (Category)</label>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Category Desk</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-xs"
+                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500"
               >
                 {categories.map((c) => (
                   <option key={c.slug} value={c.slug}>
-                    {c.name.np} ({c.name.en})
+                    {c.name.en} ({c.name.np})
                   </option>
                 ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">
-                तस्बिर लिङ्क (Image URL)
+              <label className="block text-xs font-bold text-slate-300 mb-1">
+                Featured Image URL
               </label>
               <input
                 type="url"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-xs"
+                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs font-mono"
               />
             </div>
           </div>
@@ -244,26 +248,26 @@ export default function EditArticlePage() {
           {/* Content Paragraphs */}
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-gray-800 mb-1">
-                विस्तृत सामग्री (नेपाली - अनुच्छेद परिवर्तन गर्न खाली लाइन छाड्नुहोस्)
+              <label className="block text-xs font-bold text-slate-300 mb-1">
+                Full Content (English - separate paragraphs with blank lines)
               </label>
               <textarea
                 rows={6}
-                value={contentNp}
-                onChange={(e) => setContentNp(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-xl p-4 text-xs sm:text-sm font-nepali leading-relaxed focus:outline-none focus:ring-2 focus:ring-red-500"
+                value={contentEn}
+                onChange={(e) => setContentEn(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl p-4 text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-red-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-800 mb-1">
-                Full Content (English Translation)
+              <label className="block text-xs font-bold text-slate-300 mb-1">
+                विस्तृत सामग्री (नेपाली)
               </label>
               <textarea
                 rows={5}
-                value={contentEn}
-                onChange={(e) => setContentEn(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-xl p-4 text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-red-500"
+                value={contentNp}
+                onChange={(e) => setContentNp(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl p-4 text-xs sm:text-sm font-nepali leading-relaxed focus:outline-none focus:ring-2 focus:ring-red-500"
               />
             </div>
           </div>
@@ -271,81 +275,81 @@ export default function EditArticlePage() {
           {/* Authors */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">लेखक (नेपाली)</label>
-              <input
-                type="text"
-                value={authorNameNp}
-                onChange={(e) => setAuthorNameNp(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-xs"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">Author (English)</label>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Author Name (English)</label>
               <input
                 type="text"
                 value={authorNameEn}
                 onChange={(e) => setAuthorNameEn(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-xs"
+                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">लेखक (नेपाली)</label>
+              <input
+                type="text"
+                value={authorNameNp}
+                onChange={(e) => setAuthorNameNp(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-3 py-2 text-xs font-nepali"
               />
             </div>
           </div>
 
           {/* Toggles */}
-          <div className="pt-4 border-t border-gray-100 flex flex-wrap items-center gap-6">
-            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-gray-800">
+          <div className="pt-4 border-t border-slate-800 flex flex-wrap items-center gap-6">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-300">
               <input
                 type="checkbox"
                 checked={isBreaking}
                 onChange={(e) => setIsBreaking(e.target.checked)}
-                className="w-4 h-4 text-red-600 rounded"
+                className="w-4 h-4 text-red-600 bg-slate-950 border-slate-800 rounded"
               />
-              <span className="flex items-center gap-1 text-red-600">
+              <span className="flex items-center gap-1 text-red-400">
                 <Zap className="w-3.5 h-3.5" />
-                ताजा / ब्रेकिङ समाचार (Breaking)
+                Breaking News (Flash Ticker)
               </span>
             </label>
 
-            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-gray-800">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-300">
               <input
                 type="checkbox"
                 checked={isLead}
                 onChange={(e) => setIsLead(e.target.checked)}
-                className="w-4 h-4 text-yellow-600 rounded"
+                className="w-4 h-4 text-amber-500 bg-slate-950 border-slate-800 rounded"
               />
-              <span className="flex items-center gap-1 text-yellow-700">
+              <span className="flex items-center gap-1 text-amber-400">
                 <Award className="w-3.5 h-3.5" />
-                प्रमुख समाचार (Hero Lead)
+                Homepage Hero Lead Story
               </span>
             </label>
 
-            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-gray-800">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-300">
               <input
                 type="checkbox"
                 checked={isTrending}
                 onChange={(e) => setIsTrending(e.target.checked)}
-                className="w-4 h-4 text-orange-600 rounded"
+                className="w-4 h-4 text-orange-500 bg-slate-950 border-slate-800 rounded"
               />
-              <span className="flex items-center gap-1 text-orange-600">
+              <span className="flex items-center gap-1 text-orange-400">
                 <Flame className="w-3.5 h-3.5" />
-                ट्रेन्डिङ (Trending)
+                Featured in Trending
               </span>
             </label>
           </div>
 
           {/* Action Buttons */}
-          <div className="pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
+          <div className="pt-6 border-t border-slate-800 flex items-center justify-end gap-3">
             <Link
               href="/admin/news"
-              className="px-5 py-2.5 rounded-xl border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-100 transition"
+              className="px-5 py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 text-xs font-semibold transition"
             >
-              रद्द गर्नुहोस्
+              Cancel
             </Link>
             <button
               type="submit"
-              className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm px-7 py-2.5 rounded-xl shadow-xs transition flex items-center gap-2"
+              className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs sm:text-sm px-7 py-2.5 rounded-xl shadow-lg shadow-red-900/30 transition flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
-              <span>परिमार्जन सुरक्षित गर्नुहोस् (Save Changes)</span>
+              <span>Save Changes</span>
             </button>
           </div>
         </div>

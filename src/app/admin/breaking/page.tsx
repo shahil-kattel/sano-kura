@@ -10,16 +10,15 @@ import {
   PlusCircle,
   ArrowRight,
   ShieldAlert,
+  Radio,
 } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 import { useNews } from "@/context/NewsContext";
 
 export default function AdminBreakingPage() {
-  const { language, toNepaliNum } = useLanguage();
   const { articles, toggleBreaking, addArticle } = useNews();
 
-  const [instantAlertNp, setInstantAlertNp] = useState("");
   const [instantAlertEn, setInstantAlertEn] = useState("");
+  const [instantAlertNp, setInstantAlertNp] = useState("");
   const [created, setCreated] = useState(false);
 
   const breakingArticles = articles.filter((a) => a.isBreaking);
@@ -27,25 +26,28 @@ export default function AdminBreakingPage() {
 
   const handleCreateInstant = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!instantAlertNp.trim()) return;
+    if (!instantAlertEn.trim() && !instantAlertNp.trim()) return;
+
+    const headlineEn = instantAlertEn.trim() || instantAlertNp.trim();
+    const headlineNp = instantAlertNp.trim() || instantAlertEn.trim();
 
     addArticle({
       slug: `flash-${Date.now()}`,
       title: {
-        np: instantAlertNp.trim(),
-        en: instantAlertEn.trim() || instantAlertNp.trim(),
+        np: headlineNp,
+        en: headlineEn,
       },
       subtitle: {
         np: "ताजा ब्रेकिङ अपडेट",
         en: "Breaking Flash Update",
       },
       excerpt: {
-        np: instantAlertNp.trim(),
-        en: instantAlertEn.trim() || instantAlertNp.trim(),
+        np: headlineNp,
+        en: headlineEn,
       },
       content: {
-        np: [instantAlertNp.trim()],
-        en: [instantAlertEn.trim() || instantAlertNp.trim()],
+        np: [headlineNp],
+        en: [headlineEn],
       },
       category: "politics",
       categoryName: { np: "राजनीति", en: "Politics" },
@@ -54,7 +56,7 @@ export default function AdminBreakingPage() {
       imageCaption: { np: "ताजा ब्रेकिङ समाचार।", en: "Breaking news alert." },
       author: {
         name: { np: "सानो कुरा डेस्क", en: "Sano Kura Desk" },
-        role: { np: "समाचार ब्यूरो", en: "News Bureau" },
+        role: { np: "समाचार ब्यूरो", en: "Newsroom Bureau" },
         avatar:
           "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
       },
@@ -66,8 +68,8 @@ export default function AdminBreakingPage() {
       tags: { np: ["ब्रेकिङ", "ताजा"], en: ["Breaking", "Flash"] },
     });
 
-    setInstantAlertNp("");
     setInstantAlertEn("");
+    setInstantAlertNp("");
     setCreated(true);
     setTimeout(() => setCreated(false), 3000);
   };
@@ -75,47 +77,44 @@ export default function AdminBreakingPage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight flex items-center gap-2">
-            <Zap className="w-6 h-6 text-red-600 animate-pulse" />
-            <span>
-              {language === "np" ? "ताजा / ब्रेकिङ समाचार नियन्त्रक" : "Breaking News & Ticker Controller"}
-            </span>
+          <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2.5">
+            <Zap className="w-6 h-6 text-red-500 animate-pulse" />
+            <span>Breaking News & Live Ticker Controller</span>
           </h1>
-          <p className="text-xs text-gray-500 mt-1">
-            {language === "np"
-              ? "वेबसाइटको शीर्ष रातो टिकरमा गुड्ने ब्रेकिङ समाचारहरू यहाँबाट नियन्त्रण गर्नुहोस्।"
-              : "Manage active headlines streaming on the site's top red flash banner."}
+          <p className="text-xs text-slate-400 mt-1">
+            Control the real-time red banner streaming across the top of the portal.
           </p>
         </div>
 
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-1.5 text-xs text-red-600 hover:text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded-xl font-bold transition"
+          className="flex items-center gap-1.5 text-xs text-red-400 hover:text-white bg-red-600/10 border border-red-500/30 px-3.5 py-2 rounded-xl font-bold transition hover:bg-red-600"
         >
-          <span>{language === "np" ? "लाइभ टिकर हेर्नुहोस्" : "View Live Ticker"}</span>
+          <span>View Live Ticker</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </Link>
       </div>
 
-      {/* Instant Flash Alert Form */}
-      <div className="bg-gradient-to-r from-red-600 to-red-800 text-white rounded-2xl p-6 shadow-xs">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-red-200 mb-2 flex items-center gap-1.5">
-          <ShieldAlert className="w-4 h-4 text-yellow-300" />
-          <span>{language === "np" ? "अति जरुरी ब्रेकिङ फ्ल्यास थप्नुहोस्" : "Publish Urgent Breaking Flash"}</span>
-        </h2>
-        <p className="text-xs text-red-100 mb-4">
-          {language === "np"
-            ? "यहाँ लेखिएको शीर्षक तुरुन्तै वेबसाइटको शीर्ष रातो पट्टीमा डिस्प्ले हुनेछ।"
-            : "Headlines submitted here immediately stream on the website's top breaking news ticker."}
+      {/* Broadcast Flash Form */}
+      <div className="bg-gradient-to-r from-red-950 via-slate-900 to-slate-900 border border-red-500/40 rounded-2xl p-6 shadow-xl">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
+          <h2 className="text-sm font-bold uppercase tracking-wider text-red-400 flex items-center gap-1.5">
+            <Radio className="w-4 h-4 text-red-400" />
+            <span>Broadcast Instant Breaking Flash</span>
+          </h2>
+        </div>
+        <p className="text-xs text-slate-400 mb-4">
+          Headlines broadcasted here immediately roll across the top breaking news bar on the live site.
         </p>
 
         {created && (
-          <div className="mb-4 p-2.5 bg-green-500 text-white rounded-lg text-xs font-bold flex items-center gap-2">
+          <div className="mb-4 p-3 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 rounded-xl text-xs font-bold flex items-center gap-2 animate-in fade-in">
             <CheckCircle className="w-4 h-4" />
-            <span>{language === "np" ? "ब्रेकिङ समाचार सफलतापूर्वक जारी भयो!" : "Breaking alert published!"}</span>
+            <span>Breaking alert successfully broadcasted to live ticker!</span>
           </div>
         )}
 
@@ -124,39 +123,36 @@ export default function AdminBreakingPage() {
             <input
               type="text"
               required
-              placeholder="ब्रेकिङ समाचारको शीर्षक (नेपालीमा)..."
-              value={instantAlertNp}
-              onChange={(e) => setInstantAlertNp(e.target.value)}
-              className="w-full bg-white text-gray-900 border-none rounded-xl px-4 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-gray-400"
+              placeholder="Breaking flash headline in English..."
+              value={instantAlertEn}
+              onChange={(e) => setInstantAlertEn(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-500 placeholder-slate-500"
             />
             <input
               type="text"
-              placeholder="Breaking headline translation (English)..."
-              value={instantAlertEn}
-              onChange={(e) => setInstantAlertEn(e.target.value)}
-              className="w-full bg-white text-gray-900 border-none rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-gray-400"
+              placeholder="नेपाली ब्रेकिङ शीर्षक (Nepali headline)..."
+              value={instantAlertNp}
+              onChange={(e) => setInstantAlertNp(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 text-xs font-nepali focus:outline-none focus:ring-2 focus:ring-red-500 placeholder-slate-500"
             />
           </div>
 
           <button
             type="submit"
-            className="bg-yellow-400 hover:bg-yellow-300 text-red-950 font-black text-xs px-6 py-2.5 rounded-xl shadow-xs transition flex items-center gap-2"
+            className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg shadow-red-900/40 transition flex items-center gap-2"
           >
             <Zap className="w-4 h-4" />
-            <span>{language === "np" ? "तुरुन्तै टिकरमा पठाउनुहोस् (Publish Flash)" : "Broadcast to Ticker"}</span>
+            <span>Broadcast Flash Alert</span>
           </button>
         </form>
       </div>
 
-      {/* Active Breaking List */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-gray-100">
-          <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping" />
-            <span>
-              {language === "np" ? "हाल सक्रिय ब्रेकिङ समाचारहरू" : "Currently Streaming Breaking News"} (
-              {toNepaliNum(breakingArticles.length)})
-            </span>
+      {/* Active Streaming List */}
+      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <h2 className="text-base font-bold text-white flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+            <span>Currently Streaming in Ticker ({breakingArticles.length})</span>
           </h2>
         </div>
 
@@ -165,18 +161,18 @@ export default function AdminBreakingPage() {
             {breakingArticles.map((art) => (
               <div
                 key={art.id}
-                className="p-4 rounded-xl bg-red-50/50 border border-red-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs"
+                className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs group hover:border-slate-700 transition"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-10 rounded overflow-hidden shrink-0 bg-gray-200">
-                    <img src={art.image} alt={art.title[language]} className="w-full h-full object-cover" />
+                  <div className="w-12 h-10 rounded-lg overflow-hidden shrink-0 bg-slate-800 border border-slate-700">
+                    <img src={art.image} alt={art.title.en} className="w-full h-full object-cover" />
                   </div>
                   <div>
-                    <span className="font-bold text-gray-900 text-sm block mb-0.5">
-                      {art.title[language]}
+                    <span className="font-bold text-white text-sm block mb-0.5">
+                      {art.title.en || art.title.np}
                     </span>
-                    <span className="text-gray-500 text-[11px]">
-                      {art.categoryName[language]} • {art.dateNep}
+                    <span className="text-slate-500 text-[11px]">
+                      {art.categoryName.en || art.category} • {art.dateNep}
                     </span>
                   </div>
                 </div>
@@ -184,41 +180,47 @@ export default function AdminBreakingPage() {
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     onClick={() => toggleBreaking(art.id)}
-                    className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs transition"
+                    className="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs transition"
                   >
-                    {language === "np" ? "टिकरबाट हटाउनुहोस्" : "Deactivate"}
+                    Remove from Ticker
                   </button>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="py-8 text-center text-gray-400 text-xs">
-            {language === "np"
-              ? "अहिले कुनै पनि ब्रेकिङ समाचार सक्रिय छैन।"
-              : "No active breaking news currently."}
+          <div className="py-8 text-center text-slate-500 text-xs">
+            No breaking news stories currently streaming.
           </div>
         )}
       </div>
 
-      {/* Available to Promote */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs space-y-4">
-        <h2 className="text-base font-bold text-gray-900 pb-3 border-b border-gray-100">
-          {language === "np" ? "अन्य समाचारलाई ब्रेकिङ बनाउनुहोस्" : "Promote Other News to Breaking"}
+      {/* Promote to Breaking */}
+      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+        <h2 className="text-base font-bold text-white pb-3 border-b border-slate-800">
+          Promote Other Published Stories to Breaking
         </h2>
 
         <div className="space-y-2">
           {nonBreakingArticles.slice(0, 6).map((art) => (
             <div
               key={art.id}
-              className="p-3 rounded-lg hover:bg-gray-50 border border-gray-100 flex items-center justify-between gap-4 text-xs"
+              className="p-3 rounded-xl bg-slate-950/40 hover:bg-slate-800/40 border border-slate-800 flex items-center justify-between gap-4 text-xs transition"
             >
-              <span className="font-medium text-gray-800 truncate flex-1">{art.title[language]}</span>
+              <div className="truncate flex-1">
+                <span className="font-semibold text-slate-200 block truncate">
+                  {art.title.en || art.title.np}
+                </span>
+                <span className="text-[11px] text-slate-500">
+                  {art.categoryName.en || art.category}
+                </span>
+              </div>
+
               <button
                 onClick={() => toggleBreaking(art.id)}
-                className="px-3 py-1 bg-gray-100 hover:bg-red-50 hover:text-red-600 font-bold text-gray-700 rounded-md transition shrink-0"
+                className="px-3 py-1.5 bg-slate-800 hover:bg-red-600 font-bold text-slate-300 hover:text-white rounded-lg transition shrink-0 border border-slate-700"
               >
-                {language === "np" ? "+ ब्रेकिङ बनाउनुहोस्" : "Make Breaking"}
+                + Make Breaking
               </button>
             </div>
           ))}
