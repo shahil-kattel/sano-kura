@@ -100,7 +100,16 @@ export const SanokuraaProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         if (parsed.photoStories) setPhotoStories(parsed.photoStories);
         if (parsed.services) setServices(parsed.services);
         if (parsed.inquiries) setInquiries(parsed.inquiries);
-        if (parsed.about) setAbout(parsed.about);
+        if (parsed.about) {
+          setAbout({
+            ...INITIAL_ABOUT,
+            ...parsed.about,
+            manifesto: { ...INITIAL_ABOUT.manifesto, ...(parsed.about.manifesto || {}) },
+            story: { ...INITIAL_ABOUT.story, ...(parsed.about.story || {}) },
+            socialLinks: { ...INITIAL_ABOUT.socialLinks, ...(parsed.about.socialLinks || {}) },
+            team: parsed.about.team || INITIAL_ABOUT.team,
+          });
+        }
       }
     } catch (e) {
       console.warn("Failed to read from localStorage:", e);

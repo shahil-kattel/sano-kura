@@ -38,15 +38,15 @@ export default function AdminSettingsAndServicesPage() {
   // Services Local State
   const [servicesData, setServicesData] = useState<ServiceItem[]>(services);
 
-  // About Local State
-  const [manifestoEn, setManifestoEn] = useState(about.manifesto.en);
-  const [manifestoNp, setManifestoNp] = useState(about.manifesto.np);
-  const [storyEn, setStoryEn] = useState(about.story.en);
-  const [storyNp, setStoryNp] = useState(about.story.np);
-  const [contactEmail, setContactEmail] = useState(about.socialLinks.email || "editorial@sanokuraa.com");
-  const [instagram, setInstagram] = useState(about.socialLinks.instagram || "");
-  const [youtube, setYoutube] = useState(about.socialLinks.youtube || "");
-  const [twitter, setTwitter] = useState(about.socialLinks.twitter || "");
+  // About Local State (safe fallback)
+  const [manifestoEn, setManifestoEn] = useState(about?.manifesto?.en || "");
+  const [manifestoNp, setManifestoNp] = useState(about?.manifesto?.np || "");
+  const [storyEn, setStoryEn] = useState(about?.story?.en || "");
+  const [storyNp, setStoryNp] = useState(about?.story?.np || "");
+  const [contactEmail, setContactEmail] = useState(about?.socialLinks?.email || "editorial@sanokuraa.com");
+  const [instagram, setInstagram] = useState(about?.socialLinks?.instagram || "");
+  const [youtube, setYoutube] = useState(about?.socialLinks?.youtube || "");
+  const [twitter, setTwitter] = useState(about?.socialLinks?.twitter || "");
 
   // Update a service field
   const handleServiceChange = (index: number, field: string, value: any) => {
@@ -95,7 +95,7 @@ export default function AdminSettingsAndServicesPage() {
       manifesto: { en: manifestoEn, np: manifestoNp },
       story: { en: storyEn, np: storyNp },
       socialLinks: {
-        ...about.socialLinks,
+        ...(about?.socialLinks || {}),
         email: contactEmail,
         instagram,
         youtube,

@@ -4,14 +4,20 @@ import React from "react";
 import Link from "next/link";
 import { Mail, ArrowUpRight, Compass, Users } from "lucide-react";
 import { AboutSettings } from "@/types/sanokuraa";
+import { INITIAL_ABOUT } from "@/data/sanokuraaSeed";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface AboutSectionProps {
-  about: AboutSettings;
+  about?: AboutSettings;
 }
 
-export const AboutSection: React.FC<AboutSectionProps> = ({ about }) => {
+export const AboutSection: React.FC<AboutSectionProps> = ({ about = INITIAL_ABOUT }) => {
   const { language } = useLanguage();
+  const safeAbout = about || INITIAL_ABOUT;
+  const manifestoText = safeAbout.manifesto?.[language] || safeAbout.manifesto?.["np"] || INITIAL_ABOUT.manifesto.np;
+  const storyText = safeAbout.story?.[language] || safeAbout.story?.["np"] || INITIAL_ABOUT.story.np;
+  const teamList = safeAbout.team || INITIAL_ABOUT.team;
+  const social = safeAbout.socialLinks || INITIAL_ABOUT.socialLinks;
 
   return (
     <section className="my-16 sm:my-24 pt-12 border-t-2 border-ink">
@@ -33,10 +39,10 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ about }) => {
 
           <div className="prose prose-slate max-w-none text-slate text-sm sm:text-base leading-relaxed space-y-4 font-sans">
             <p className="font-editorial text-lg sm:text-xl text-ink leading-relaxed">
-              {about.manifesto[language]}
+              {manifestoText}
             </p>
             <p className="text-xs sm:text-sm text-slate">
-              {about.story[language]}
+              {storyText}
             </p>
           </div>
 
@@ -59,7 +65,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ about }) => {
             </div>
 
             <div className="divide-y divide-hairline">
-              {about.team.map((member, idx) => (
+              {teamList.map((member, idx) => (
                 <div key={idx} className="py-4 first:pt-0 last:pb-0 flex items-start gap-4">
                   <img
                     src={member.avatar}
@@ -83,16 +89,16 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ about }) => {
             </p>
             <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-ink">
               <a
-                href={`mailto:${about.socialLinks.email || "editorial@sanokuraa.com"}`}
+                href={`mailto:${social?.email || "editorial@sanokuraa.com"}`}
                 className="inline-flex items-center gap-1.5 text-ink hover:text-accent font-bold transition"
               >
                 <Mail className="w-4 h-4 text-slate" />
-                <span>{about.socialLinks.email || "editorial@sanokuraa.com"}</span>
+                <span>{social?.email || "editorial@sanokuraa.com"}</span>
               </a>
 
-              {about.socialLinks.instagram && (
+              {social?.instagram && (
                 <a
-                  href={about.socialLinks.instagram}
+                  href={social.instagram}
                   target="_blank"
                   rel="noreferrer"
                   className="hover:text-accent transition"
@@ -100,9 +106,9 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ about }) => {
                   Instagram ↗
                 </a>
               )}
-              {about.socialLinks.youtube && (
+              {social?.youtube && (
                 <a
-                  href={about.socialLinks.youtube}
+                  href={social.youtube}
                   target="_blank"
                   rel="noreferrer"
                   className="hover:text-accent transition"
@@ -110,9 +116,9 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ about }) => {
                   YouTube ↗
                 </a>
               )}
-              {about.socialLinks.twitter && (
+              {social?.twitter && (
                 <a
-                  href={about.socialLinks.twitter}
+                  href={social.twitter}
                   target="_blank"
                   rel="noreferrer"
                   className="hover:text-accent transition"
