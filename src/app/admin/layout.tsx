@@ -105,6 +105,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       section: "Publishing",
     },
     {
+      href: "/admin/ads",
+      label: "Ads Manager",
+      icon: LayoutDashboard,
+      badge: "NEW",
+      badgeColor: "bg-purple-500/20 text-purple-400 font-bold",
+      section: "Management",
+    },
+    {
       href: "/admin/settings",
       label: "Site Settings",
       icon: Settings,

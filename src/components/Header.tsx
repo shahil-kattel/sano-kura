@@ -82,200 +82,197 @@ export const Header: React.FC = () => {
   return (
     <>
       <header className="w-full bg-white border-b border-gray-200 shadow-xs">
-      {/* 1. TOP UTILITY BAR */}
-      <div className="bg-gray-900 text-gray-200 text-xs border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-1.5 flex flex-wrap items-center justify-between gap-3">
-          {/* Left: Date, Time & Weather */}
-          <div className="flex items-center gap-4 flex-wrap">
-            <div className="flex items-center gap-1.5 text-gray-300 font-medium">
-              <Clock className="w-3.5 h-3.5 text-red-400" />
-              <span>
-                {language === "np" ? currentDateStr.nepali : currentDateStr.english}
-              </span>
-            </div>
-
-            <div className="hidden md:flex items-center gap-1.5 text-gray-400">
-              <Sun className="w-3.5 h-3.5 text-yellow-400" />
-              <span>
-                {language === "np" ? "काठमाडौँ: २१°C" : "Kathmandu: 21°C"}
-              </span>
-            </div>
-
-            <div className="hidden lg:flex items-center gap-2 text-gray-400 border-l border-gray-700 pl-3">
-              <TrendingUp className="w-3.5 h-3.5 text-green-400" />
-              <span>
-                {language === "np"
-                  ? `नेप्से: ${markets.nepse.index} (${markets.nepse.change})`
-                  : `NEPSE: ${markets.nepse.index} (${markets.nepse.change})`}
-              </span>
-            </div>
-          </div>
-
-          {/* Right: Quick Links, Language Switcher & Bookmarks */}
-          <div className="flex items-center gap-3">
-            <Link
-              href="/epaper"
-              className="hidden sm:flex items-center gap-1 hover:text-red-400 transition"
-            >
-              <Newspaper className="w-3.5 h-3.5 text-red-400" />
-              <span>{t("epaper")}</span>
-            </Link>
-
-            <Link
-              href="/admin"
-              className="flex items-center gap-1 hover:text-red-400 transition bg-red-950/80 hover:bg-red-900 border border-red-800/80 px-2.5 py-0.5 rounded text-red-200 font-semibold"
-              title="Admin CMS Portal"
-            >
-              <Shield className="w-3.5 h-3.5 text-yellow-400" />
-              <span>{language === "np" ? "एडमिन" : "Admin"}</span>
-            </Link>
-
-            <Link
-              href="/bookmarks"
-              className="flex items-center gap-1 hover:text-red-400 transition bg-gray-800 px-2 py-0.5 rounded text-gray-300"
-              title={t("bookmarks")}
-            >
-              <Bookmark className="w-3.5 h-3.5 text-yellow-400" />
-              <span className="hidden sm:inline">{t("bookmarks")}</span>
-              {bookmarkCount > 0 && (
-                <span className="bg-red-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold ml-0.5">
-                  {toNepaliNum(bookmarkCount)}
+        {/* 1. TOP UTILITY BAR */}
+        <div className="bg-gray-900 text-gray-200 text-xs border-b border-gray-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-1.5 flex flex-wrap items-center justify-between gap-3">
+            {/* Left: Date, Time & Weather */}
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-1.5 text-gray-300 font-medium">
+                <Clock className="w-3.5 h-3.5 text-red-400" />
+                <span>
+                  {language === "np" ? currentDateStr.nepali : currentDateStr.english}
                 </span>
+              </div>
+
+              <div className="hidden md:flex items-center gap-1.5 text-gray-400">
+                <Sun className="w-3.5 h-3.5 text-yellow-400" />
+                <span>
+                  {language === "np" ? "काठमाडौँ: २१°C" : "Kathmandu: 21°C"}
+                </span>
+              </div>
+
+              <div className="hidden lg:flex items-center gap-2 text-gray-400 border-l border-gray-700 pl-3">
+                <TrendingUp className="w-3.5 h-3.5 text-green-400" />
+                <span>
+                  {language === "np"
+                    ? `नेप्से: ${markets.nepse.index} (${markets.nepse.change})`
+                    : `NEPSE: ${markets.nepse.index} (${markets.nepse.change})`}
+                </span>
+              </div>
+            </div>
+
+            {/* Right: Quick Links, Language Switcher & Bookmarks */}
+            <div className="flex items-center gap-3">
+              <Link
+                href="/epaper"
+                className="hidden sm:flex items-center gap-1 hover:text-red-400 transition"
+              >
+                <Newspaper className="w-3.5 h-3.5 text-red-400" />
+                <span>{t("epaper")}</span>
+              </Link>
+
+              <Link
+                href="/admin"
+                className="flex items-center gap-1 hover:text-red-400 transition bg-red-950/80 hover:bg-red-900 border border-red-800/80 px-2.5 py-0.5 rounded text-red-200 font-semibold"
+                title="Admin CMS Portal"
+              >
+                <Shield className="w-3.5 h-3.5 text-yellow-400" />
+                <span>{language === "np" ? "एडमिन" : "Admin"}</span>
+              </Link>
+
+              <Link
+                href="/bookmarks"
+                className="flex items-center gap-1 hover:text-red-400 transition bg-gray-800 px-2 py-0.5 rounded text-gray-300"
+                title={t("bookmarks")}
+              >
+                <Bookmark className="w-3.5 h-3.5 text-yellow-400" />
+                <span className="hidden sm:inline">{t("bookmarks")}</span>
+                {bookmarkCount > 0 && (
+                  <span className="bg-red-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold ml-0.5">
+                    {toNepaliNum(bookmarkCount)}
+                  </span>
+                )}
+              </Link>
+
+              {/* Language Switch Button with Clear Indicators */}
+              <div className="flex items-center bg-gray-800 p-0.5 rounded-md border border-gray-700">
+                <button
+                  onClick={() => setLanguage("np")}
+                  className={`px-2 py-0.5 text-xs font-semibold rounded transition flex items-center gap-1 ${language === "np"
+                    ? "bg-red-600 text-white shadow-xs"
+                    : "text-gray-300 hover:text-white"
+                    }`}
+                  title="नेपाली भाषा"
+                >
+                  नेपाली
+                </button>
+                <button
+                  onClick={() => setLanguage("en")}
+                  className={`px-2 py-0.5 text-xs font-semibold rounded transition flex items-center gap-1 ${language === "en"
+                    ? "bg-red-600 text-white shadow-xs"
+                    : "text-gray-300 hover:text-white"
+                    }`}
+                  title="English Language"
+                >
+                  English
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 2. MAIN LOGO & SEARCH BAR */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center justify-between gap-4">
+            {/* Logo Branding */}
+            <Link href="/" className="flex items-center gap-3 group">
+              {settings?.logoUrl ? (
+                <img
+                  src={settings.logoUrl}
+                  alt={language === "np" ? settings.siteNameNp : settings.siteNameEn}
+                  className="w-11 h-11 sm:w-13 sm:h-13 object-cover rounded-xl shadow-md border border-red-500/30"
+                />
+              ) : (
+                <div className="w-11 h-11 sm:w-13 sm:h-13 bg-red-600 text-white rounded-xl flex items-center justify-center font-black text-2xl sm:text-3xl shadow-md group-hover:bg-red-700 transition">
+                  सा
+                </div>
               )}
+              <div className="flex flex-col">
+                <span className="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 group-hover:text-red-600 transition">
+                  {language === "np" ? settings?.siteNameNp || "सानो कुरा" : settings?.siteNameEn || "SANO KURA"}
+                </span>
+                <span className="text-[11px] sm:text-xs text-gray-500 font-medium">
+                  {language === "np"
+                    ? settings?.taglineNp || "सत्य, तथ्य र निष्पक्ष समाचार"
+                    : settings?.taglineEn || "Truth, Facts & Unbiased News"}
+                </span>
+              </div>
             </Link>
 
-            {/* Language Switch Button with Clear Indicators */}
-            <div className="flex items-center bg-gray-800 p-0.5 rounded-md border border-gray-700">
-              <button
-                onClick={() => setLanguage("np")}
-                className={`px-2 py-0.5 text-xs font-semibold rounded transition flex items-center gap-1 ${
-                  language === "np"
-                    ? "bg-red-600 text-white shadow-xs"
-                    : "text-gray-300 hover:text-white"
-                }`}
-                title="नेपाली भाषा"
-              >
-                नेपाली
-              </button>
-              <button
-                onClick={() => setLanguage("en")}
-                className={`px-2 py-0.5 text-xs font-semibold rounded transition flex items-center gap-1 ${
-                  language === "en"
-                    ? "bg-red-600 text-white shadow-xs"
-                    : "text-gray-300 hover:text-white"
-                }`}
-                title="English Language"
-              >
-                English
-              </button>
+            {/* Search Bar - Desktop */}
+            <div className="hidden md:flex items-center flex-1 max-w-md mx-6">
+              <form onSubmit={handleSearchSubmit} className="relative w-full">
+                <input
+                  type="text"
+                  placeholder={t("searchPlaceholder")}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-gray-50 border border-gray-300 rounded-full pl-4 pr-10 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition"
+                />
+                <button
+                  type="submit"
+                  aria-label={t("search")}
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white p-1.5 rounded-full transition"
+                >
+                  <Search className="w-3.5 h-3.5" />
+                </button>
+              </form>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* 2. MAIN LOGO & SEARCH BAR */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
-        <div className="flex items-center justify-between gap-4">
-          {/* Logo Branding */}
-          <Link href="/" className="flex items-center gap-3 group">
-            {settings?.logoUrl ? (
-              <img
-                src={settings.logoUrl}
-                alt={language === "np" ? settings.siteNameNp : settings.siteNameEn}
-                className="w-11 h-11 sm:w-13 sm:h-13 object-cover rounded-xl shadow-md border border-red-500/30"
-              />
-            ) : (
-              <div className="w-11 h-11 sm:w-13 sm:h-13 bg-red-600 text-white rounded-xl flex items-center justify-center font-black text-2xl sm:text-3xl shadow-md group-hover:bg-red-700 transition">
-                सा
-              </div>
-            )}
-            <div className="flex flex-col">
-              <span className="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 group-hover:text-red-600 transition">
-                {language === "np" ? settings?.siteNameNp || "सानो कुरा" : settings?.siteNameEn || "SANO KURA"}
-              </span>
-              <span className="text-[11px] sm:text-xs text-gray-500 font-medium">
-                {language === "np"
-                  ? settings?.taglineNp || "सत्य, तथ्य र निष्पक्ष समाचार"
-                  : settings?.taglineEn || "Truth, Facts & Unbiased News"}
-              </span>
-            </div>
-          </Link>
-
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:flex items-center flex-1 max-w-md mx-6">
-            <form onSubmit={handleSearchSubmit} className="relative w-full">
-              <input
-                type="text"
-                placeholder={t("searchPlaceholder")}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-full pl-4 pr-10 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition"
-              />
-              <button
-                type="submit"
-                aria-label={t("search")}
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white p-1.5 rounded-full transition"
-              >
-                <Search className="w-3.5 h-3.5" />
-              </button>
-            </form>
-          </div>
-
-          {/* Right Header Promo / Live updates */}
-          <div className="hidden lg:flex items-center gap-3">
-            <div className="bg-red-50 border border-red-200 rounded-lg p-2 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-red-600" />
-              <div className="text-xs">
-                <p className="font-semibold text-red-900">
-                  {language === "np" ? "डिजिटल संस्करण" : "Digital Edition"}
-                </p>
-                <p className="text-gray-600">
-                  {language === "np" ? "२४ सै घण्टा ताजा अपडेट" : "24/7 Live Coverage"}
-                </p>
+            {/* Right Header Promo / Live updates */}
+            <div className="hidden lg:flex items-center gap-3">
+              <div className="bg-red-50 border border-red-200 rounded-lg p-2 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-red-600" />
+                <div className="text-xs">
+                  <p className="font-semibold text-red-900">
+                    {language === "np" ? "डिजिटल संस्करण" : "Digital Edition"}
+                  </p>
+                  <p className="text-gray-600">
+                    {language === "np" ? "२४ सै घण्टा ताजा अपडेट" : "24/7 Live Coverage"}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Mobile hamburger */}
-          <div className="flex items-center gap-2 md:hidden">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-gray-700 hover:text-red-600 rounded-lg hover:bg-gray-100 transition"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Trending Tags pills */}
-        <div className="hidden sm:flex items-center gap-2 mt-2 pt-2 border-t border-gray-100 text-xs">
-          <span className="font-bold text-red-600 flex items-center gap-1 shrink-0">
-            <TrendingUp className="w-3 h-3" />
-            {t("trending")}:
-          </span>
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-            {trendingTags.map((tag, idx) => (
-              <Link
-                key={idx}
-                href={`/search?q=${encodeURIComponent(tag[language])}`}
-                className="bg-gray-100 hover:bg-red-50 hover:text-red-600 text-gray-700 px-2 py-0.5 rounded-full whitespace-nowrap transition"
+            {/* Mobile hamburger */}
+            <div className="flex items-center gap-2 md:hidden">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 text-gray-700 hover:text-red-600 rounded-lg hover:bg-gray-100 transition"
+                aria-label="Toggle menu"
               >
-                #{tag[language]}
-              </Link>
-            ))}
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
+
+          {/* Trending Tags pills */}
+          <div className="hidden sm:flex items-center gap-2 mt-2 pt-2 border-t border-gray-100 text-xs">
+            <span className="font-bold text-red-600 flex items-center gap-1 shrink-0">
+              <TrendingUp className="w-3 h-3" />
+              {t("trending")}:
+            </span>
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+              {trendingTags.map((tag, idx) => (
+                <Link
+                  key={idx}
+                  href={`/search?q=${encodeURIComponent(tag[language])}`}
+                  className="bg-gray-100 hover:bg-red-50 hover:text-red-600 text-gray-700 px-2 py-0.5 rounded-full whitespace-nowrap transition"
+                >
+                  #{tag[language]}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
       {/* 3. PRIMARY STICKY NAVIGATION BAR (Stays pinned on scroll) */}
       <nav
-        className={`sticky top-0 z-50 w-full transition-all duration-200 ${
-          isScrolled
-            ? "bg-red-700/98 backdrop-blur-md shadow-md border-b border-red-800"
-            : "bg-red-700 border-b border-red-800 shadow-xs"
-        } text-white`}
+        className={`sticky top-0 z-50 w-full transition-all duration-200 ${isScrolled
+          ? "bg-red-700/98 backdrop-blur-md shadow-md border-b border-red-800"
+          : "bg-red-700 border-b border-red-800 shadow-xs"
+          } text-white`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between">
@@ -299,9 +296,8 @@ export const Header: React.FC = () => {
               {/* Home */}
               <Link
                 href="/"
-                className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition hover:bg-red-800 ${
-                  pathname === "/" ? "bg-red-900 text-yellow-300 border-b-2 border-yellow-300" : ""
-                }`}
+                className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition hover:bg-red-800 ${pathname === "/" ? "bg-red-900 text-yellow-300 border-b-2 border-yellow-300" : ""
+                  }`}
               >
                 {t("home")}
               </Link>
@@ -313,11 +309,10 @@ export const Header: React.FC = () => {
                   <Link
                     key={cat.slug}
                     href={`/category/${cat.slug}`}
-                    className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition hover:bg-red-800 ${
-                      isActive
-                        ? "bg-red-900 text-yellow-300 border-b-2 border-yellow-300"
-                        : "text-white"
-                    }`}
+                    className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition hover:bg-red-800 ${isActive
+                      ? "bg-red-900 text-yellow-300 border-b-2 border-yellow-300"
+                      : "text-white"
+                      }`}
                   >
                     {cat.name[language]}
                   </Link>
@@ -327,11 +322,10 @@ export const Header: React.FC = () => {
               {/* Photo & Video Gallery */}
               <Link
                 href="/gallery"
-                className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition hover:bg-red-800 ${
-                  pathname === "/gallery"
-                    ? "bg-red-900 text-yellow-300 border-b-2 border-yellow-300"
-                    : "text-white"
-                }`}
+                className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition hover:bg-red-800 ${pathname === "/gallery"
+                  ? "bg-red-900 text-yellow-300 border-b-2 border-yellow-300"
+                  : "text-white"
+                  }`}
               >
                 {t("gallery")}
               </Link>
@@ -408,9 +402,8 @@ export const Header: React.FC = () => {
                   setLanguage("np");
                   setMobileMenuOpen(false);
                 }}
-                className={`px-3 py-1 text-xs font-bold rounded ${
-                  language === "np" ? "bg-red-600 text-white" : "bg-gray-100 text-gray-800"
-                }`}
+                className={`px-3 py-1 text-xs font-bold rounded ${language === "np" ? "bg-red-600 text-white" : "bg-gray-100 text-gray-800"
+                  }`}
               >
                 नेपाली
               </button>
@@ -419,9 +412,8 @@ export const Header: React.FC = () => {
                   setLanguage("en");
                   setMobileMenuOpen(false);
                 }}
-                className={`px-3 py-1 text-xs font-bold rounded ${
-                  language === "en" ? "bg-red-600 text-white" : "bg-gray-100 text-gray-800"
-                }`}
+                className={`px-3 py-1 text-xs font-bold rounded ${language === "en" ? "bg-red-600 text-white" : "bg-gray-100 text-gray-800"
+                  }`}
               >
                 English
               </button>
