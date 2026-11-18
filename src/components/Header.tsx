@@ -6,466 +6,226 @@ import { useRouter, usePathname } from "next/navigation";
 import {
   Search,
   Globe,
-  Sun,
-  TrendingUp,
-  Bookmark,
   Menu,
   X,
+  Shield,
+  ArrowUpRight,
   Clock,
   Sparkles,
-  Newspaper,
-  ChevronDown,
-  Shield,
+  Bookmark,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { useNews } from "@/context/NewsContext";
-import { BreakingTicker } from "./BreakingTicker";
 
 export const Header: React.FC = () => {
-  const { language, setLanguage, toggleLanguage, t, toNepaliNum } = useLanguage();
-  const { categories, markets, settings } = useNews();
+  const { language, setLanguage, toggleLanguage, t } = useLanguage();
   const router = useRouter();
   const pathname = usePathname();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [bookmarkCount, setBookmarkCount] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 90);
+      setIsScrolled(window.scrollY > 60);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Time & Date state
-  const [currentDateStr, setCurrentDateStr] = useState({
-    nepali: "२०८१ मंसिर २ गते, मंगलबार",
-    english: "Tuesday, Nov 17, 2026",
-    timeStr: "21:30",
-  });
-
-  useEffect(() => {
-    // Check saved bookmarks
-    const updateBookmarks = () => {
-      try {
-        const saved = JSON.parse(localStorage.getItem("sano_kura_bookmarks") || "[]");
-        setBookmarkCount(Array.isArray(saved) ? saved.length : 0);
-      } catch {
-        setBookmarkCount(0);
-      }
-    };
-    updateBookmarks();
-    window.addEventListener("storage", updateBookmarks);
-    return () => window.removeEventListener("storage", updateBookmarks);
   }, []);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
       setMobileMenuOpen(false);
     }
   };
 
-  const trendingTags = [
-    { np: "जलविद्युत", en: "Hydropower" },
-    { np: "नेपाल क्रिकेट", en: "Nepal Cricket" },
-    { np: "नेप्से उछाल", en: "NEPSE Rally" },
-    { np: "सगरमाथा", en: "Everest Climate" },
-    { np: "नेपाली एआई", en: "Nepali AI" },
-    { np: "सुशासन विधेयक", en: "Good Governance" },
+  const navLinks = [
+    { href: "/", label: { en: "Home", np: "गृहपृष्ठ" } },
+    { href: "/#reporting", label: { en: "Reporting", np: "रिपोर्टिङ" } },
+    { href: "/#articles", label: { en: "Articles & Op-Ed", np: "विचार / स्तम्भ" } },
+    { href: "/#reels", label: { en: "Reels", np: "रिल्स" } },
+    { href: "/#photo-stories", label: { en: "Photo Stories", np: "फोटो कथा" } },
+    { href: "/#services", label: { en: "Services", np: "सेवाहरू" } },
+    { href: "/#about", label: { en: "About", np: "हाम्रोबारे" } },
   ];
 
   return (
     <>
-      <header className="w-full bg-white border-b border-gray-200 shadow-xs">
-        {/* 1. TOP UTILITY BAR */}
-        <div className="bg-gray-900 text-gray-200 text-xs border-b border-gray-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-1.5 flex flex-wrap items-center justify-between gap-3">
-            {/* Left: Date, Time & Weather */}
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex items-center gap-1.5 text-gray-300 font-medium">
-                <Clock className="w-3.5 h-3.5 text-red-400" />
-                <span>
-                  {language === "np" ? currentDateStr.nepali : currentDateStr.english}
-                </span>
-              </div>
-
-              <div className="hidden md:flex items-center gap-1.5 text-gray-400">
-                <Sun className="w-3.5 h-3.5 text-yellow-400" />
-                <span>
-                  {language === "np" ? "काठमाडौँ: २१°C" : "Kathmandu: 21°C"}
-                </span>
-              </div>
-
-              <div className="hidden lg:flex items-center gap-2 text-gray-400 border-l border-gray-700 pl-3">
-                <TrendingUp className="w-3.5 h-3.5 text-green-400" />
-                <span>
-                  {language === "np"
-                    ? `नेप्से: ${markets.nepse.index} (${markets.nepse.change})`
-                    : `NEPSE: ${markets.nepse.index} (${markets.nepse.change})`}
-                </span>
-              </div>
-            </div>
-
-            {/* Right: Quick Links, Language Switcher & Bookmarks */}
-            <div className="flex items-center gap-3">
-              <Link
-                href="/epaper"
-                className="hidden sm:flex items-center gap-1 hover:text-red-400 transition"
-              >
-                <Newspaper className="w-3.5 h-3.5 text-red-400" />
-                <span>{t("epaper")}</span>
-              </Link>
-
-              <Link
-                href="/admin"
-                className="flex items-center gap-1 hover:text-red-400 transition bg-red-950/80 hover:bg-red-900 border border-red-800/80 px-2.5 py-0.5 rounded text-red-200 font-semibold"
-                title="Admin CMS Portal"
-              >
-                <Shield className="w-3.5 h-3.5 text-yellow-400" />
-                <span>{language === "np" ? "एडमिन" : "Admin"}</span>
-              </Link>
-
-              <Link
-                href="/bookmarks"
-                className="flex items-center gap-1 hover:text-red-400 transition bg-gray-800 px-2 py-0.5 rounded text-gray-300"
-                title={t("bookmarks")}
-              >
-                <Bookmark className="w-3.5 h-3.5 text-yellow-400" />
-                <span className="hidden sm:inline">{t("bookmarks")}</span>
-                {bookmarkCount > 0 && (
-                  <span className="bg-red-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold ml-0.5">
-                    {toNepaliNum(bookmarkCount)}
-                  </span>
-                )}
-              </Link>
-
-              {/* Language Switch Button with Clear Indicators */}
-              <div className="flex items-center bg-gray-800 p-0.5 rounded-md border border-gray-700">
-                <button
-                  onClick={() => setLanguage("np")}
-                  className={`px-2 py-0.5 text-xs font-semibold rounded transition flex items-center gap-1 ${language === "np"
-                    ? "bg-red-600 text-white shadow-xs"
-                    : "text-gray-300 hover:text-white"
-                    }`}
-                  title="नेपाली भाषा"
-                >
-                  नेपाली
-                </button>
-                <button
-                  onClick={() => setLanguage("en")}
-                  className={`px-2 py-0.5 text-xs font-semibold rounded transition flex items-center gap-1 ${language === "en"
-                    ? "bg-red-600 text-white shadow-xs"
-                    : "text-gray-300 hover:text-white"
-                    }`}
-                  title="English Language"
-                >
-                  English
-                </button>
-              </div>
-            </div>
+      {/* 1. TOP UTILITY STRIP (Minimalist Hairline) */}
+      <div className="w-full bg-sanok border-b border-hairline text-slate text-[11px] font-mono py-1.5 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1.5 text-ink font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              <span>Kathmandu, Nepal</span>
+            </span>
+            <span className="hidden sm:inline-block text-hairline">|</span>
+            <span className="hidden sm:inline-block">
+              {language === "np" ? "२०८१ मंसिर २ गते, मंगलबार" : "Tuesday, November 17, 2026"}
+            </span>
           </div>
-        </div>
 
-        {/* 2. MAIN LOGO & SEARCH BAR */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
-          <div className="flex items-center justify-between gap-4">
-            {/* Logo Branding */}
-            <Link href="/" className="flex items-center gap-3 group">
-              {settings?.logoUrl ? (
-                <img
-                  src={settings.logoUrl}
-                  alt={language === "np" ? settings.siteNameNp : settings.siteNameEn}
-                  className="w-11 h-11 sm:w-13 sm:h-13 object-cover rounded-xl shadow-md border border-red-500/30"
-                />
-              ) : (
-                <div className="w-11 h-11 sm:w-13 sm:h-13 bg-red-600 text-white rounded-xl flex items-center justify-center font-black text-2xl sm:text-3xl shadow-md group-hover:bg-red-700 transition">
-                  सा
-                </div>
-              )}
-              <div className="flex flex-col">
-                <span className="text-2xl sm:text-3xl font-black tracking-tight text-gray-900 group-hover:text-red-600 transition">
-                  {language === "np" ? settings?.siteNameNp || "सानो कुरा" : settings?.siteNameEn || "SANO KURA"}
-                </span>
-                <span className="text-[11px] sm:text-xs text-gray-500 font-medium">
-                  {language === "np"
-                    ? settings?.taglineNp || "सत्य, तथ्य र निष्पक्ष समाचार"
-                    : settings?.taglineEn || "Truth, Facts & Unbiased News"}
-                </span>
-              </div>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white border border-hairline text-ink hover:text-accent font-bold transition shadow-xs"
+            >
+              <Shield className="w-3 h-3 text-accent" />
+              <span>Admin CMS</span>
             </Link>
 
-            {/* Search Bar - Desktop */}
-            <div className="hidden md:flex items-center flex-1 max-w-md mx-6">
-              <form onSubmit={handleSearchSubmit} className="relative w-full">
-                <input
-                  type="text"
-                  placeholder={t("searchPlaceholder")}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-300 rounded-full pl-4 pr-10 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition"
-                />
-                <button
-                  type="submit"
-                  aria-label={t("search")}
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white p-1.5 rounded-full transition"
-                >
-                  <Search className="w-3.5 h-3.5" />
-                </button>
-              </form>
-            </div>
+            {/* Language Switcher */}
+            <button
+              onClick={toggleLanguage}
+              className="inline-flex items-center gap-1 hover:text-ink transition cursor-pointer font-bold"
+              title="Toggle English / Nepali"
+            >
+              <Globe className="w-3 h-3 text-slate" />
+              <span>{language === "np" ? "English" : "नेपाली"}</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
-            {/* Right Header Promo / Live updates */}
-            <div className="hidden lg:flex items-center gap-3">
-              <div className="bg-red-50 border border-red-200 rounded-lg p-2 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-red-600" />
-                <div className="text-xs">
-                  <p className="font-semibold text-red-900">
-                    {language === "np" ? "डिजिटल संस्करण" : "Digital Edition"}
-                  </p>
-                  <p className="text-gray-600">
-                    {language === "np" ? "२४ सै घण्टा ताजा अपडेट" : "24/7 Live Coverage"}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile hamburger */}
-            <div className="flex items-center gap-2 md:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-gray-700 hover:text-red-600 rounded-lg hover:bg-gray-100 transition"
-                aria-label="Toggle menu"
-              >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
+      {/* 2. EDITORIAL MASTHEAD */}
+      <header className="w-full bg-white border-b border-hairline py-6 sm:py-8 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-center sm:text-left">
+            <Link href="/" className="group inline-block">
+              <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink group-hover:text-accent transition duration-200">
+                {language === "np" ? "सानोकुरा" : "SANOKURAA"}
+              </h1>
+            </Link>
+            <p className="font-mono text-[11px] sm:text-xs text-slate uppercase tracking-widest mt-1">
+              Editorial & Creative Studio • Digital Journal • Kathmandu
+            </p>
           </div>
 
-          {/* Trending Tags pills */}
-          <div className="hidden sm:flex items-center gap-2 mt-2 pt-2 border-t border-gray-100 text-xs">
-            <span className="font-bold text-red-600 flex items-center gap-1 shrink-0">
-              <TrendingUp className="w-3 h-3" />
-              {t("trending")}:
-            </span>
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-              {trendingTags.map((tag, idx) => (
-                <Link
-                  key={idx}
-                  href={`/search?q=${encodeURIComponent(tag[language])}`}
-                  className="bg-gray-100 hover:bg-red-50 hover:text-red-600 text-gray-700 px-2 py-0.5 rounded-full whitespace-nowrap transition"
-                >
-                  #{tag[language]}
-                </Link>
-              ))}
-            </div>
+          {/* Quick Header Search on Desktop */}
+          <div className="hidden md:flex items-center gap-3">
+            <form onSubmit={handleSearchSubmit} className="relative w-64">
+              <input
+                type="text"
+                placeholder={language === "np" ? "खोज्नुहोस्..." : "Search reporting & essays..."}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-sanok border border-hairline rounded-full pl-3.5 pr-8 py-1.5 text-xs text-ink placeholder:text-slate focus:outline-none focus:border-ink font-sans transition"
+              />
+              <button
+                type="submit"
+                aria-label="Search"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate hover:text-ink transition cursor-pointer"
+              >
+                <Search className="w-3.5 h-3.5" />
+              </button>
+            </form>
           </div>
         </div>
       </header>
 
-      {/* 3. PRIMARY STICKY NAVIGATION BAR (Stays pinned on scroll) */}
+      {/* 3. STICKY CATEGORY / SECTION NAVIGATION BAR */}
       <nav
-        className={`sticky top-0 z-50 w-full transition-all duration-200 ${isScrolled
-          ? "bg-red-700/98 backdrop-blur-md shadow-md border-b border-red-800"
-          : "bg-red-700 border-b border-red-800 shadow-xs"
-          } text-white`}
+        className={`sticky top-0 z-40 w-full transition-all duration-200 ${
+          isScrolled
+            ? "bg-white/95 backdrop-blur-md shadow-xs border-b border-hairline py-2"
+            : "bg-white border-b border-hairline py-2.5"
+        }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center overflow-x-auto no-scrollbar py-0.5">
-              {/* If scrolled, display compact Brand Logo & Name to return to top */}
-              {isScrolled && (
-                <Link
-                  href="/"
-                  className="flex items-center gap-2 mr-3 pr-3 border-r border-red-600/80 hover:opacity-90 transition shrink-0 animate-in fade-in"
-                  title={language === "np" ? settings?.siteNameNp || "सानो कुरा" : settings?.siteNameEn || "Sano Kura"}
-                >
-                  <div className="w-6 h-6 bg-white text-red-700 rounded-md flex items-center justify-center font-black text-xs shadow-xs">
-                    सा
-                  </div>
-                  <span className="font-black text-xs tracking-tight text-white hidden sm:inline">
-                    {language === "np" ? settings?.siteNameNp || "सानो कुरा" : settings?.siteNameEn || "SANO KURA"}
-                  </span>
-                </Link>
-              )}
-
-              {/* Home */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+          {/* Scrolled Compact Brand */}
+          <div className="flex items-center gap-6 overflow-x-auto no-scrollbar">
+            {isScrolled && (
               <Link
                 href="/"
-                className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition hover:bg-red-800 ${pathname === "/" ? "bg-red-900 text-yellow-300 border-b-2 border-yellow-300" : ""
-                  }`}
+                className="font-editorial font-bold text-lg text-ink hover:text-accent transition shrink-0 pr-3 border-r border-hairline"
               >
-                {t("home")}
+                {language === "np" ? "सानोकुरा" : "Sanokuraa"}
               </Link>
+            )}
 
-              {/* All Categories */}
-              {categories.map((cat) => {
-                const isActive = pathname === `/category/${cat.slug}`;
-                return (
-                  <Link
-                    key={cat.slug}
-                    href={`/category/${cat.slug}`}
-                    className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition hover:bg-red-800 ${isActive
-                      ? "bg-red-900 text-yellow-300 border-b-2 border-yellow-300"
-                      : "text-white"
-                      }`}
-                  >
-                    {cat.name[language]}
-                  </Link>
-                );
-              })}
-
-              {/* Photo & Video Gallery */}
+            {navLinks.map((link) => (
               <Link
-                href="/gallery"
-                className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition hover:bg-red-800 ${pathname === "/gallery"
-                  ? "bg-red-900 text-yellow-300 border-b-2 border-yellow-300"
-                  : "text-white"
-                  }`}
+                key={link.href}
+                href={link.href}
+                className="font-mono text-xs font-medium text-slate hover:text-ink hover:border-b-2 hover:border-accent pb-0.5 whitespace-nowrap transition"
               >
-                {t("gallery")}
-              </Link>
-            </div>
-
-            {/* Right side controls on sticky bar */}
-            <div className="flex items-center gap-1.5 shrink-0 ml-2">
-              {/* Quick search shortcut if scrolled */}
-              {isScrolled && (
-                <Link
-                  href="/search"
-                  className="p-1.5 rounded-md hover:bg-red-800 text-red-100 hover:text-white transition"
-                  title={t("search")}
-                >
-                  <Search className="w-4 h-4" />
-                </Link>
-              )}
-
-              {/* Language Quick Switch pill on Navbar right */}
-              <button
-                onClick={toggleLanguage}
-                className="flex items-center gap-1 bg-red-800 hover:bg-red-900 px-2.5 py-1 rounded-md text-xs font-bold transition border border-red-600/70 shrink-0"
-                title="Switch language"
-              >
-                <Globe className="w-3.5 h-3.5 text-yellow-300" />
-                <span>{language === "np" ? "Eng" : "नेपा"}</span>
-              </button>
-
-              {/* Mobile menu toggle button in sticky bar */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-1.5 text-white hover:bg-red-800 rounded-md transition"
-                aria-label="Toggle menu"
-              >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* 4. BREAKING NEWS TICKER */}
-      <BreakingTicker />
-
-      {/* 5. MOBILE MENU DRAWER */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-gray-200 px-4 py-4 shadow-lg animate-in slide-in-from-top">
-          {/* Mobile Search */}
-          <form onSubmit={handleSearchSubmit} className="mb-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder={t("searchPlaceholder")}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-lg pl-4 pr-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-              />
-              <button
-                type="submit"
-                aria-label={t("search")}
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-red-600 text-white p-1.5 rounded-md"
-              >
-                <Search className="w-4 h-4" />
-              </button>
-            </div>
-          </form>
-
-          {/* Language Switcher Mobile */}
-          <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100">
-            <span className="text-xs font-semibold text-gray-600">भाषा / Language:</span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => {
-                  setLanguage("np");
-                  setMobileMenuOpen(false);
-                }}
-                className={`px-3 py-1 text-xs font-bold rounded ${language === "np" ? "bg-red-600 text-white" : "bg-gray-100 text-gray-800"
-                  }`}
-              >
-                नेपाली
-              </button>
-              <button
-                onClick={() => {
-                  setLanguage("en");
-                  setMobileMenuOpen(false);
-                }}
-                className={`px-3 py-1 text-xs font-bold rounded ${language === "en" ? "bg-red-600 text-white" : "bg-gray-100 text-gray-800"
-                  }`}
-              >
-                English
-              </button>
-            </div>
-          </div>
-
-          {/* Categories Grid */}
-          <div className="grid grid-cols-2 gap-2 text-sm font-medium">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded bg-gray-50 hover:bg-red-50 hover:text-red-600"
-            >
-              🏠 {t("home")}
-            </Link>
-            {categories.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2 rounded bg-gray-50 hover:bg-red-50 hover:text-red-600"
-              >
-                {cat.name[language]}
+                {link.label[language]}
               </Link>
             ))}
-            <Link
-              href="/gallery"
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded bg-gray-50 hover:bg-red-50 hover:text-red-600"
+          </div>
+
+          {/* Mobile hamburger & search trigger */}
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="p-1.5 text-slate hover:text-ink rounded-md transition"
+              aria-label="Search"
             >
-              📷 {t("gallery")}
-            </Link>
-            <Link
-              href="/epaper"
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded bg-gray-50 hover:bg-red-50 hover:text-red-600"
+              <Search className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-1.5 text-ink hover:text-accent rounded-md transition"
+              aria-label="Toggle menu"
             >
-              📰 {t("epaper")}
-            </Link>
-            <Link
-              href="/bookmarks"
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded bg-gray-50 hover:bg-red-50 hover:text-red-600"
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Search Input Drawer */}
+        {searchOpen && (
+          <div className="md:hidden px-4 py-3 border-t border-hairline bg-sanok animate-in fade-in">
+            <form onSubmit={handleSearchSubmit}>
+              <input
+                type="text"
+                placeholder={language === "np" ? "खोज्नुहोस्..." : "Search reporting & essays..."}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-white border border-hairline rounded-lg px-3 py-2 text-xs text-ink focus:outline-none focus:border-ink font-sans"
+              />
+            </form>
+          </div>
+        )}
+      </nav>
+
+      {/* 4. MOBILE DRAWER */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-x-0 top-[110px] bottom-0 z-50 bg-white p-6 border-b border-hairline shadow-2xl space-y-4 overflow-y-auto animate-in slide-in-from-top-4">
+          <div className="flex flex-col space-y-3 font-mono text-sm border-b border-hairline pb-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-1 text-ink font-semibold hover:text-accent transition"
+              >
+                {link.label[language]}
+              </Link>
+            ))}
+          </div>
+
+          <div className="pt-2 flex items-center justify-between">
+            <button
+              onClick={() => {
+                toggleLanguage();
+                setMobileMenuOpen(false);
+              }}
+              className="px-4 py-2 rounded-lg bg-sanok border border-hairline text-xs font-mono font-bold text-ink"
             >
-              🔖 {t("bookmarks")}
-            </Link>
+              Switch to {language === "np" ? "English" : "नेपाली"}
+            </button>
+
             <Link
               href="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded bg-red-100 text-red-800 font-bold hover:bg-red-200"
+              className="px-4 py-2 rounded-lg bg-ink text-white text-xs font-mono font-bold"
             >
-              ⚙️ {language === "np" ? "एडमिन प्यानल" : "Admin Panel"}
+              Admin CMS
             </Link>
           </div>
         </div>

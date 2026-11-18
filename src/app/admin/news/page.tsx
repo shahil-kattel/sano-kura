@@ -54,20 +54,20 @@ export default function AdminArticlesPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2.5">
-            <Newspaper className="w-6 h-6 text-red-500" />
+          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight flex items-center gap-2.5">
+            <Newspaper className="w-6 h-6 text-red-600" />
             <span>Articles & Publishing Manager</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Browse, search, edit, and organize all {articles.length} news stories published across the portal.
           </p>
         </div>
 
         <Link
           href="/admin/news/new"
-          className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-red-900/30 transition flex items-center gap-2 shrink-0"
+          className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 shrink-0"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Write New Article</span>
@@ -75,7 +75,7 @@ export default function AdminArticlesPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-lg flex flex-col md:flex-row gap-3 items-center justify-between">
+      <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between">
         {/* Search Input */}
         <div className="relative w-full md:w-80">
           <input
@@ -83,9 +83,9 @@ export default function AdminArticlesPage() {
             placeholder="Search headline, keyword, author..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500 placeholder-slate-500"
+            className="w-full bg-white border border-gray-300 text-gray-900 rounded-lg pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500 placeholder-gray-400"
           />
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
         </div>
 
         {/* Filter Dropdowns */}
@@ -94,7 +94,7 @@ export default function AdminArticlesPage() {
           <select
             value={selectedCat}
             onChange={(e) => setSelectedCat(e.target.value)}
-            className="bg-slate-950 border border-slate-800 text-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="bg-white border border-gray-300 text-gray-700 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="all">All Categories</option>
             {categories.map((c) => (
@@ -108,7 +108,7 @@ export default function AdminArticlesPage() {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value as any)}
-            className="bg-slate-950 border border-slate-800 text-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="bg-white border border-gray-300 text-gray-700 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="all">All Statuses</option>
             <option value="breaking">Breaking News</option>

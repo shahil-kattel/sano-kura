@@ -3,395 +3,297 @@
 import React from "react";
 import Link from "next/link";
 import {
+  Quote as QuoteIcon,
   Newspaper,
-  Zap,
-  TrendingUp,
-  MessageSquare,
+  Feather,
+  Video,
+  Camera,
+  Briefcase,
+  ExternalLink,
   PlusCircle,
   Eye,
-  ArrowRight,
-  Flame,
-  Award,
-  CheckCircle,
-  Trash2,
-  Edit,
-  ExternalLink,
-  Users,
-  Activity,
-  ArrowUpRight,
-  Shield,
+  CheckCircle2,
   Clock,
+  ArrowUpRight,
+  Sparkles,
 } from "lucide-react";
-import { useNews } from "@/context/NewsContext";
+import { useSanokuraa } from "@/context/SanokuraaContext";
 
-export default function AdminDashboardPage() {
+export default function AdminOverviewPage() {
   const {
+    quotes,
+    reports,
     articles,
-    markets,
-    comments,
-    deleteArticle,
-    toggleBreaking,
-  } = useNews();
+    reels,
+    photoStories,
+    inquiries,
+  } = useSanokuraa();
 
-  const breakingArticles = articles.filter((a) => a.isBreaking);
-  const totalViews = articles.reduce((sum, a) => sum + (a.views || 0), 0);
+  const activeQuotes = quotes.filter((q) => q.isActive).length;
+  const publishedReports = reports.filter((r) => r.status === "PUBLISHED").length;
+  const pinnedReports = reports.filter((r) => r.isPinnedToGrid).length;
+  const publishedArticles = articles.filter((a) => a.status === "PUBLISHED").length;
+  const publishedStories = photoStories.filter((s) => s.status === "PUBLISHED").length;
+  const newInquiries = inquiries.filter((i) => i.status === "NEW").length;
 
-  const stats = [
+  const metrics = [
     {
-      title: "Total Published Stories",
-      value: articles.length.toLocaleString(),
-      change: "+4 today",
-      isPositive: true,
+      title: "Active Quotes & Graphics",
+      value: `${activeQuotes} / ${quotes.length}`,
+      subtitle: "Shuffling on Homepage Hero",
+      icon: QuoteIcon,
+      color: "text-blue-400 bg-blue-500/10 border-blue-500/20",
+      href: "/admin/quotes",
+    },
+    {
+      title: "Sanokuraa Reporting",
+      value: `${publishedReports} Published`,
+      subtitle: `${pinnedReports} pinned to 2x3 grid`,
       icon: Newspaper,
-      accent: "from-blue-600 to-indigo-600",
-      textColor: "text-blue-400",
+      color: "text-red-400 bg-red-500/10 border-red-500/20",
+      href: "/admin/reporting",
     },
     {
-      title: "Active Breaking Alerts",
-      value: breakingArticles.length.toString(),
-      change: "Streaming in top ticker",
-      isPositive: true,
-      icon: Zap,
-      accent: "from-red-600 to-rose-600",
-      textColor: "text-red-400",
+      title: "Articles / Op-Ed Essays",
+      value: `${publishedArticles} Essays`,
+      subtitle: "Columns & reflections",
+      icon: Feather,
+      color: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+      href: "/admin/articles",
     },
     {
-      title: "NEPSE Market Index",
-      value: markets.nepse.index,
-      change: `${markets.nepse.change} (${markets.nepse.percent})`,
-      isPositive: markets.nepse.isUp,
-      icon: TrendingUp,
-      accent: "from-emerald-600 to-teal-600",
-      textColor: "text-emerald-400",
+      title: "Field Reels (9:16)",
+      value: `${reels.length} Videos`,
+      subtitle: "Vertical Shorts modal player",
+      icon: Video,
+      color: "text-purple-400 bg-purple-500/10 border-purple-500/20",
+      href: "/admin/reels",
     },
     {
-      title: "Reader Comments",
-      value: comments.length.toString(),
-      change: "Active & moderated",
-      isPositive: true,
-      icon: MessageSquare,
-      accent: "from-purple-600 to-violet-600",
-      textColor: "text-purple-400",
+      title: "Photo Story Builder",
+      value: `${publishedStories} Curated`,
+      subtitle: "High-res spatial sequences",
+      icon: Camera,
+      color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+      href: "/admin/photo-stories",
+    },
+    {
+      title: "Project Inquiries",
+      value: `${newInquiries} New`,
+      subtitle: `${inquiries.length} total client submissions`,
+      icon: Briefcase,
+      color: "text-rose-400 bg-rose-500/10 border-rose-500/20",
+      href: "/admin/settings",
     },
   ];
 
   return (
-    <div className="space-y-8">
-      {/* 1. WELCOME HERO BANNER */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-red-950/40 border border-slate-800 p-6 sm:p-8 shadow-xl">
-        <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-              <span className="text-xs font-bold uppercase tracking-wider text-red-400">
-                Editorial Control Center
-              </span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              Welcome back, Editor-in-Chief!
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-xl">
-              Monitor portal performance, publish verified news stories, trigger live breaking flashes, and regulate market feeds across Sano Kura.
-            </p>
+    <div className="space-y-8 max-w-7xl mx-auto">
+      {/* Welcome Banner */}
+      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-850 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">
+              <Sparkles className="w-3.5 h-3.5" />
+              Editorial Command Center
+            </span>
+            <span className="text-xs text-slate-500">• Kathmandu Studio</span>
           </div>
-
-          <div className="flex items-center gap-3 shrink-0">
-            <Link
-              href="/admin/news/new"
-              className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-red-900/40 transition flex items-center gap-2"
-            >
-              <PlusCircle className="w-4 h-4" />
-              <span>Draft New Story</span>
-            </Link>
-          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Sanokuraa Editorial & Portfolio Desk
+          </h1>
+          <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            Manage your daily quotes randomizer, 2x3 investigative reporting grid, op-ed columns, 9:16 vertical field reels, scrollytelling photo stories, and client studio inquiries.
+          </p>
         </div>
 
-        {/* Subtle background glow */}
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            target="_blank"
+            className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer"
+          >
+            <span>Live Portal</span>
+            <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+          </Link>
+        </div>
       </div>
 
-      {/* 2. STATS 4-GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {stats.map((stat, idx) => {
-          const Icon = stat.icon;
+      {/* KPI Stat Cards (6 Grid Cards) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {metrics.map((m, idx) => {
+          const Icon = m.icon;
           return (
-            <div
+            <Link
               key={idx}
-              className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-lg relative overflow-hidden group hover:border-slate-700 transition"
+              href={m.href}
+              className="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 hover:border-slate-700 transition group flex flex-col justify-between space-y-4 cursor-pointer"
             >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-slate-400">
-                  {stat.title}
-                </span>
-                <div
-                  className={`w-9 h-9 rounded-xl bg-gradient-to-br ${stat.accent} flex items-center justify-center text-white shadow-md`}
-                >
-                  <Icon className="w-4 h-4" />
+              <div className="flex items-start justify-between">
+                <div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${m.color}`}>
+                  <Icon className="w-5 h-5" />
                 </div>
+                <ArrowUpRight className="w-4 h-4 text-slate-600 group-hover:text-white transition" />
               </div>
 
-              <div className="text-2xl font-black text-white tracking-tight">
-                {stat.value}
+              <div>
+                <p className="text-xs font-medium text-slate-400">{m.title}</p>
+                <h3 className="text-2xl font-black text-white mt-1 tracking-tight font-sans">
+                  {m.value}
+                </h3>
+                <p className="text-xs text-slate-500 mt-1 font-mono">{m.subtitle}</p>
               </div>
-
-              <div className="flex items-center gap-1.5 text-xs font-medium mt-1.5 text-slate-400">
-                <span className={stat.isPositive ? "text-emerald-400 font-semibold" : "text-rose-400 font-semibold"}>
-                  {stat.change}
-                </span>
-              </div>
-            </div>
+            </Link>
           );
         })}
       </div>
 
-      {/* 3. QUICK ACTIONS BAR */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-lg">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
-          <Activity className="w-4 h-4 text-red-500" />
-          <span>Quick Editorial Actions</span>
-        </h3>
+      {/* Quick Action Dock */}
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
+        <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+          Fast Editorial Actions
+        </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
           <Link
-            href="/admin/news/new"
-            className="group bg-slate-950/60 hover:bg-red-600/10 border border-slate-800 hover:border-red-500/50 p-4 rounded-xl font-semibold text-xs transition flex flex-col justify-between gap-3"
+            href="/admin/quotes"
+            className="p-3.5 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-700 text-center space-y-1.5 transition group"
           >
-            <div className="w-8 h-8 rounded-lg bg-red-600/20 text-red-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <PlusCircle className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="text-white font-bold">New Article</p>
-              <p className="text-[11px] text-slate-500">Draft & publish news</p>
-            </div>
+            <QuoteIcon className="w-5 h-5 mx-auto text-blue-400 group-hover:scale-110 transition" />
+            <p className="text-xs font-semibold text-slate-200">Add Quote</p>
           </Link>
 
           <Link
-            href="/admin/breaking"
-            className="group bg-slate-950/60 hover:bg-amber-600/10 border border-slate-800 hover:border-amber-500/50 p-4 rounded-xl font-semibold text-xs transition flex flex-col justify-between gap-3"
+            href="/admin/reporting"
+            className="p-3.5 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-700 text-center space-y-1.5 transition group"
           >
-            <div className="w-8 h-8 rounded-lg bg-amber-600/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Zap className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="text-white font-bold">Breaking Ticker</p>
-              <p className="text-[11px] text-slate-500">Control live alerts</p>
-            </div>
+            <Newspaper className="w-5 h-5 mx-auto text-red-400 group-hover:scale-110 transition" />
+            <p className="text-xs font-semibold text-slate-200">Compose Report</p>
           </Link>
 
           <Link
-            href="/admin/markets"
-            className="group bg-slate-950/60 hover:bg-emerald-600/10 border border-slate-800 hover:border-emerald-500/50 p-4 rounded-xl font-semibold text-xs transition flex flex-col justify-between gap-3"
+            href="/admin/articles"
+            className="p-3.5 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-700 text-center space-y-1.5 transition group"
           >
-            <div className="w-8 h-8 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <TrendingUp className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="text-white font-bold">Market Rates</p>
-              <p className="text-[11px] text-slate-500">NEPSE, Gold & Forex</p>
-            </div>
+            <Feather className="w-5 h-5 mx-auto text-amber-400 group-hover:scale-110 transition" />
+            <p className="text-xs font-semibold text-slate-200">Write Op-Ed</p>
           </Link>
 
           <Link
-            href="/admin/gallery"
-            className="group bg-slate-950/60 hover:bg-purple-600/10 border border-slate-800 hover:border-purple-500/50 p-4 rounded-xl font-semibold text-xs transition flex flex-col justify-between gap-3"
+            href="/admin/reels"
+            className="p-3.5 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-700 text-center space-y-1.5 transition group"
           >
-            <div className="w-8 h-8 rounded-lg bg-purple-600/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <PlusCircle className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="text-white font-bold">Media Upload</p>
-              <p className="text-[11px] text-slate-500">Photos & video stories</p>
-            </div>
+            <Video className="w-5 h-5 mx-auto text-purple-400 group-hover:scale-110 transition" />
+            <p className="text-xs font-semibold text-slate-200">Upload Reel</p>
+          </Link>
+
+          <Link
+            href="/admin/photo-stories"
+            className="p-3.5 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-700 text-center space-y-1.5 transition group"
+          >
+            <Camera className="w-5 h-5 mx-auto text-emerald-400 group-hover:scale-110 transition" />
+            <p className="text-xs font-semibold text-slate-200">Photo Essay</p>
+          </Link>
+
+          <Link
+            href="/admin/settings"
+            className="p-3.5 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-700 text-center space-y-1.5 transition group"
+          >
+            <Briefcase className="w-5 h-5 mx-auto text-rose-400 group-hover:scale-110 transition" />
+            <p className="text-xs font-semibold text-slate-200">View Inquiries</p>
           </Link>
         </div>
       </div>
 
-      {/* 4. RECENT ARTICLES TABLE */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl shadow-lg overflow-hidden">
-        <div className="p-5 sm:p-6 border-b border-slate-800 flex items-center justify-between">
-          <div>
-            <h2 className="text-base font-extrabold text-white">
-              Recently Published Stories
-            </h2>
-            <p className="text-xs text-slate-400">
-              Live status across domestic, international, and regional desks
-            </p>
-          </div>
-
-          <Link
-            href="/admin/news"
-            className="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 transition"
-          >
-            <span>View All Stories</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-950/60 text-slate-400 uppercase tracking-wider font-semibold border-b border-slate-800">
-              <tr>
-                <th className="py-3.5 px-4">Headline</th>
-                <th className="py-3.5 px-4">Category</th>
-                <th className="py-3.5 px-4">Author</th>
-                <th className="py-3.5 px-4">Views</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/80 text-slate-300 font-medium">
-              {articles.slice(0, 6).map((art) => (
-                <tr key={art.id} className="hover:bg-slate-800/40 transition">
-                  <td className="py-3.5 px-4 max-w-sm">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-10 rounded-lg overflow-hidden shrink-0 bg-slate-800 border border-slate-700/60">
-                        <img
-                          src={art.image}
-                          alt={art.title.en}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="truncate">
-                        <Link
-                          href={`/news/${art.slug}`}
-                          target="_blank"
-                          className="font-bold text-white hover:text-red-400 transition block truncate text-xs sm:text-sm"
-                        >
-                          {art.title.en || art.title.np}
-                        </Link>
-                        <span className="text-[11px] text-slate-500 font-normal">
-                          {art.title.np}
-                        </span>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className="py-3.5 px-4 whitespace-nowrap">
-                    <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
-                      {art.categoryName.en || art.category}
-                    </span>
-                  </td>
-
-                  <td className="py-3.5 px-4 whitespace-nowrap text-slate-400">
-                    {art.author.name.en || art.author.name.np}
-                  </td>
-
-                  <td className="py-3.5 px-4 whitespace-nowrap font-mono text-slate-200">
-                    {art.views.toLocaleString()}
-                  </td>
-
-                  <td className="py-3.5 px-4 whitespace-nowrap">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {art.isBreaking && (
-                        <span className="bg-red-500/20 text-red-400 border border-red-500/30 font-bold px-2 py-0.5 rounded text-[10px]">
-                          Breaking
-                        </span>
-                      )}
-                      {art.isLead && (
-                        <span className="bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold px-2 py-0.5 rounded text-[10px]">
-                          Lead
-                        </span>
-                      )}
-                      {!art.isBreaking && !art.isLead && (
-                        <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold px-2 py-0.5 rounded text-[10px]">
-                          Published
-                        </span>
-                      )}
-                    </div>
-                  </td>
-
-                  <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                    <div className="flex items-center justify-end gap-1.5">
-                      <button
-                        onClick={() => toggleBreaking(art.id)}
-                        className={`p-1.5 rounded-lg transition border ${
-                          art.isBreaking
-                            ? "bg-red-600 border-red-500 text-white"
-                            : "bg-slate-800 border-slate-700 text-slate-400 hover:text-red-400"
-                        }`}
-                        title={art.isBreaking ? "Deactivate Breaking" : "Promote to Breaking"}
-                      >
-                        <Zap className="w-3.5 h-3.5" />
-                      </button>
-
-                      <Link
-                        href={`/admin/news/edit/${art.id}`}
-                        className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700"
-                        title="Edit Article"
-                      >
-                        <Edit className="w-3.5 h-3.5" />
-                      </Link>
-
-                      <Link
-                        href={`/news/${art.slug}`}
-                        target="_blank"
-                        className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700"
-                        title="Open Live Article"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </Link>
-
-                      <button
-                        onClick={() => {
-                          if (confirm("Are you sure you want to permanently delete this story?")) {
-                            deleteArticle(art.id);
-                          }
-                        }}
-                        className="p-1.5 rounded-lg bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-400 transition border border-slate-700"
-                        title="Delete Story"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* 5. READER COMMENTS DESK */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-lg">
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
-          <div>
-            <h3 className="font-extrabold text-base text-white flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-purple-400" />
-              <span>Reader Feedback Desk</span>
+      {/* Recent Dispatches & Inquiries Split */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Reports on the 2x3 Grid (7 Cols) */}
+        <div className="lg:col-span-7 bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <h3 className="font-bold text-white text-sm flex items-center gap-2">
+              <Newspaper className="w-4 h-4 text-red-500" />
+              <span>Homepage 2×3 Grid Dispatches</span>
             </h3>
-            <p className="text-xs text-slate-400">
-              Recent user comments requiring moderation or compliance review
-            </p>
+            <Link
+              href="/admin/reporting"
+              className="text-xs font-mono text-red-400 hover:text-red-300"
+            >
+              Manage Grid →
+            </Link>
           </div>
-          <Link
-            href="/admin/comments"
-            className="text-xs font-bold text-purple-400 hover:text-purple-300 transition"
-          >
-            Moderate All
-          </Link>
+
+          <div className="divide-y divide-slate-850">
+            {reports.slice(0, 4).map((report) => (
+              <div key={report.id} className="py-3 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={report.coverImage}
+                    alt={report.title.en}
+                    className="w-12 h-8 rounded object-cover bg-slate-950 shrink-0"
+                  />
+                  <div>
+                    <h4 className="text-xs font-bold text-white line-clamp-1">
+                      {report.title.en}
+                    </h4>
+                    <p className="text-[11px] text-slate-400 font-mono">
+                      Beat: {report.beat} • {report.date}
+                    </p>
+                  </div>
+                </div>
+
+                <span
+                  className={`text-[10px] font-mono px-2 py-0.5 rounded-full shrink-0 ${
+                    report.isPinnedToGrid
+                      ? "bg-red-500/20 text-red-400 font-bold"
+                      : "bg-slate-800 text-slate-400"
+                  }`}
+                >
+                  {report.isPinnedToGrid ? "Pinned" : "Standard"}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="space-y-3">
-          {comments.slice(0, 3).map((comm) => (
-            <div
-              key={comm.id}
-              className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 flex items-start justify-between gap-4 text-xs"
+        {/* Client Project Inquiries (5 Cols) */}
+        <div className="lg:col-span-5 bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <h3 className="font-bold text-white text-sm flex items-center gap-2">
+              <Briefcase className="w-4 h-4 text-rose-500" />
+              <span>Recent Client Inquiries</span>
+            </h3>
+            <Link
+              href="/admin/settings"
+              className="text-xs font-mono text-rose-400 hover:text-rose-300"
             >
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-slate-200">{comm.userName}</span>
-                  <span className="text-[10px] text-slate-500">• {comm.date}</span>
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.2 rounded font-bold">
-                    {comm.status}
+              View All ({inquiries.length}) →
+            </Link>
+          </div>
+
+          <div className="divide-y divide-slate-850">
+            {inquiries.slice(0, 3).map((inq) => (
+              <div key={inq.id} className="py-3 space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <p className="font-bold text-white">{inq.clientName}</p>
+                  <span
+                    className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                      inq.status === "NEW"
+                        ? "bg-rose-500/20 text-rose-400 font-bold"
+                        : "bg-slate-800 text-slate-400"
+                    }`}
+                  >
+                    {inq.status}
                   </span>
                 </div>
-                <p className="text-slate-300 leading-relaxed font-normal">{comm.text}</p>
-                <p className="text-[10px] text-slate-500 italic">
-                  Story: {comm.articleTitle}
+                <p className="text-[11px] font-mono text-slate-400">
+                  Target: {inq.serviceTitle}
+                </p>
+                <p className="text-xs text-slate-300 line-clamp-1 italic">
+                  "{inq.projectScope}"
                 </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,908 @@
+import {
+  Quote,
+  Report,
+  Article,
+  Reel,
+  PhotoStory,
+  ServiceItem,
+  Inquiry,
+  AboutSettings,
+} from "@/types/sanokuraa";
+
+export const INITIAL_QUOTES: Quote[] = [
+  {
+    id: "q-1",
+    quoteText: {
+      en: "Journalism is what somebody somewhere wants to suppress; all the rest is advertising.",
+      np: "पत्रकारिता त्यो हो जसलाई कसैले कतै दबाउन चाहन्छ; बाँकी सबै केवल विज्ञापन हो।",
+    },
+    author: {
+      en: "George Orwell",
+      np: "जर्ज ओर्वेल",
+    },
+    tag: "Integrity",
+    isActive: true,
+    createdAt: "2026-11-10",
+  },
+  {
+    id: "q-2",
+    quoteText: {
+      en: "Words without thoughts never to heaven go. Tell the grounded truth of ordinary lives.",
+      np: "विचार बिनाका शब्दहरू कहिल्यै गहिरा हुँदैनन्। सर्वसाधारण नागरिकका वास्तविक भोगाइहरू लेख्नुहोस्।",
+    },
+    author: {
+      en: "B.P. Koirala",
+      np: "बी.पी. कोइराला",
+    },
+    tag: "Literature & Politics",
+    isActive: true,
+    createdAt: "2026-11-12",
+  },
+  {
+    id: "q-3",
+    quoteText: {
+      en: "The role of an independent press is to inform the governed, not the governors.",
+      np: "स्वतन्त्र प्रेसको मूल कर्तव्य शासकहरूलाई होइन, शासित जनतालाई सुसूचित गर्नु हो।",
+    },
+    author: {
+      en: "Hugo Black",
+      np: "ह्युगो ब्ल्याक",
+    },
+    tag: "Public Interest",
+    isActive: true,
+    createdAt: "2026-11-14",
+  },
+  {
+    id: "q-4",
+    quoteText: {
+      en: "A mountain does not bend to the wind; honest reportage does not bend to power.",
+      np: "पहाड हावासामु कहिल्यै झुक्दैन; निष्पक्ष पत्रकारिता शक्तिकेन्द्रसामु झुक्नु हुँदैन।",
+    },
+    author: {
+      en: "Sanokuraa Editorial Board",
+      np: "सानोकुरा सम्पादकीय मण्डल",
+    },
+    tag: "Manifesto",
+    graphicUrl:
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=80",
+    isActive: true,
+    createdAt: "2026-11-15",
+  },
+  {
+    id: "q-5",
+    quoteText: {
+      en: "Creative courage is not the absence of fear, but the triumph over censorship.",
+      np: "सृजनशील साहस डरको अनुपस्थिति होइन, बरु सेन्सरसिपमाथिको विजय हो।",
+    },
+    author: {
+      en: "Parijat",
+      np: "पारिजात",
+    },
+    tag: "Creative Resistance",
+    isActive: true,
+    createdAt: "2026-11-16",
+  },
+  {
+    id: "q-6",
+    quoteText: {
+      en: "Photography is the only language that can be understood anywhere in the world.",
+      np: "फोटोग्राफी संसारको एकमात्र यस्तो भाषा हो जुन विश्वको जुनसुकै कुनामा पनि सहजै बुझिन्छ।",
+    },
+    author: {
+      en: "Bruno Barbey",
+      np: "ब्रुनो बार्बे",
+    },
+    tag: "Visual Storytelling",
+    graphicUrl:
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+    isActive: true,
+    createdAt: "2026-11-17",
+  },
+];
+
+export const INITIAL_REPORTS: Report[] = [
+  {
+    id: "rep-1",
+    slug: "karnali-high-altitude-solar-microgrids",
+    title: {
+      en: "Karnali's High-Altitude Solar Revolution: Powering Remote Valleys Off the Grid",
+      np: "कर्णालीको उच्च हिमाली सौर्य क्रान्ति: राष्ट्रिय ग्रिड बाहिरका बस्तीमा उज्यालो",
+    },
+    excerpt: {
+      en: "How local indigenous cooperatives in Upper Dolpo and Simikot built decentralized microgrids that survive sub-zero winters.",
+      np: "माथिल्लो डोल्पो र सिमिकोटका स्थानीय सहकारीले शून्य डिग्रीभन्दा तलको चिसोमा पनि चल्ने विकेन्द्रित सोलार ग्रिड कसरी बनाए?",
+    },
+    content: {
+      en: [
+        "In the frozen high-altitude valleys of Upper Karnali, temperatures plummet below minus fifteen degrees Celsius during the winter months. For decades, traditional kerosene wick lamps and resinous pine wood torches served as the only source of light once night enveloped the mountains.",
+        "Over the past three seasons, a grassroots movement orchestrated by indigenous mountain cooperatives has quietly overturned this reality. By deploying specialized lithium-iron-phosphate battery banks insulated with sheep wool composites, five remote settlements have established self-sustaining solar microgrids.",
+        "The project operates without reliance on central transmission lines. Energy tariffs are pegged to agricultural yields and seasonal handicraft trades, creating an economic blueprint that engineers from across the Himalayan rim are now arriving to study.",
+      ],
+      np: [
+        "कर्णालीका उच्च हिमाली उपत्यकाहरूमा जाडो याममा तापक्रम माइनस १५ डिग्रीभन्दा तल झर्छ। दशकौंसम्म मट्टीतेलको टुकी र सल्लोको दियालो नै हिउँदका लामा रातहरू काट्ने एकमात्र सहारा थिए।",
+        "तर पछिल्लो तीन वर्षमा स्थानीय भोटे समुदायका महिला तथा युवा सहकारीले यो यथार्थलाई बदलिदिएका छन्। भेडाको उनबाट इन्सुलेट गरिएका आधुनिक लिथियम ब्याट्री बैंकहरू प्रयोग गरी पाँच दुर्गम गाउँहरूले आफ्नै सौर्य माइक्रो-ग्रिड सञ्चालनमा ल्याएका छन्।",
+        "यो परियोजना केन्द्रीय प्रसारण लाइनमा निर्भर छैन। स्थानीय जडीबुटी र ऊनी कपडा उत्पादनसँग बिजुली महसुल जोडिएको यो नमुना अहिले समग्र हिमाली क्षेत्रकै लागि उदाहरणीय बनेको छ।",
+      ],
+    },
+    coverImage:
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=80",
+    beat: "Ground Report",
+    reporter: {
+      name: { en: "Pasang Dorje Lama", np: "पासाङ दोर्जे लामा" },
+      avatar:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+      role: { en: "Himalayan Affairs Correspondent", np: "हिमाली मामिला संवाददाता" },
+    },
+    date: "Nov 17, 2026",
+    dateNep: "२०८१ मंसिर २",
+    readTime: "5 min read",
+    status: "PUBLISHED",
+    isPinnedToGrid: true,
+    views: 4820,
+  },
+  {
+    id: "rep-2",
+    slug: "patans-bronze-masters-digital-heritage-clones",
+    title: {
+      en: "Patan's 800-Year Lost-Wax Metalcasting Meets 3D Photogrammetry",
+      np: "पाटनको आठ सय वर्ष पुरानो मैन ढलोट कला र थ्रीडी डिजिटल संरक्षण",
+    },
+    excerpt: {
+      en: "Master sculptors and digital archivists join hands to preserve sacred Newar iconography before ancient wax techniques fade.",
+      np: "पुर्ख्यौली मैन प्रविधि लोप हुनुअघि नेवार धातु मूर्तिकलाको डिजिटल अभिलेखीकरण गर्न जुटेका कालिगड र युवा इन्जिनियरहरू।",
+    },
+    content: {
+      en: [
+        "Inside the dimly lit courtyards of Oku Bahal in Lalitpur, rhythmic hammering mingles with the subtle hum of high-resolution LiDAR scanners. Shakya and Bajracharya master craftsmen have shaped sacred bronze divinities using the lost-wax technique since the Lichhavi era.",
+        "Now, a new intergenerational collective is laser-scanning historical moulds and alloy compositions down to the sub-millimeter level, publishing open-access spatial models that protect cultural provenance against illicit international trade.",
+        "The digital archive ensures that even if rare ancestral casting workshops face generational attrition, the sacred proportions codified in the ancient Chitralakshana remain preserved for posterity.",
+      ],
+      np: [
+        "ललितपुरको ओकुबहालका प्राचीन चोकहरूमा हथौडाको तालबद्ध आवाजसँगै अत्याधुनिक थ्रीडी स्क्यानरहरूको मधुरो आवाज सुनिन्छ। लिच्छविकालदेखि शाक्य र बज्राचार्य समुदायले मैन ढलोट विधिबाट पवित्र धातुका मूर्तिहरू निर्माण गर्दै आएका छन्।",
+        "अहिले नयाँ पुस्ताका इन्जिनियर र पुराना कालिगडहरू मिलेर प्राचीन मूर्तिहरूलाई सब-मिलिमिटर स्तरमा स्क्यान गर्दै खुला डिजिटल अभिलेख बनाइरहेका छन्। यसले बहुमूल्य सम्पदाको चोरी र नक्कल नियन्त्रण गर्न मद्दत पुग्नेछ।",
+        "यो डिजिटल प्रयासले पुर्ख्यौली कार्यशालाहरू घट्दै गए पनि प्राचीन चित्रलक्षण ग्रन्थमा उल्लेखित पवित्र अनुपातहरू सदासर्वदा सुरक्षित रहने सुनिश्चित गरेको छ।",
+      ],
+    },
+    coverImage:
+      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1200&q=80",
+    beat: "Culture",
+    reporter: {
+      name: { en: "Sujata Shakya", np: "सुजाता शाक्य" },
+      avatar:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
+      role: { en: "Arts & Heritage Reporter", np: "सम्पदा तथा कला ब्युरो" },
+    },
+    date: "Nov 16, 2026",
+    dateNep: "२०८१ मंसिर १",
+    readTime: "4 min read",
+    status: "PUBLISHED",
+    isPinnedToGrid: true,
+    views: 3410,
+  },
+  {
+    id: "rep-3",
+    slug: "nepal-digital-public-infrastructure-privacy-audit",
+    title: {
+      en: "Nepal's National ID Rollout: An Independent Algorithmic & Privacy Audit",
+      np: "राष्ट्रिय परिचयपत्र विस्तार र नागरिकको डिजिटल गोपनीयता: स्वतन्त्र अडिट",
+    },
+    excerpt: {
+      en: "As biometric verification expands across banking and healthcare, legal scholars raise questions on surveillance and data sovereignty.",
+      np: "बैंकिङ र स्वास्थ्य सेवामा बायोमेट्रिक अनिवार्य गरिँदा डाटा सार्वभौमिकता र नागरिक निगरानीका चुनौतीमाथि विशेष रिपोर्ट।",
+    },
+    content: {
+      en: [
+        "Over sixteen million citizens have now enrolled in the National Identity Management System. However, civil rights advocates and cybersecurity researchers caution that data localization laws remain ambiguously enforced.",
+        "An investigation by Sanokuraa reveals that several municipal third-party integration contractors utilized unencrypted transmission channels for initial enrollment verification in suburban districts.",
+        "Parliament's joint committee on state affairs is scheduled to convene an emergency hearing next Tuesday to debate amendments enforcing zero-knowledge encryption protocols.",
+      ],
+      np: [
+        "नेपालमा एक करोड ६० लाखभन्दा बढी नागरिक राष्ट्रिय परिचयपत्र प्रणालीमा दर्ता भइसकेका छन्। तर डिजिटल अधिकारकर्मी र साइबर सुरक्षा विश्लेषकहरूले डाटा सुरक्षाको गम्भीर सवाल उठाएका छन्।",
+        "सानोकुराको अनुसन्धानले स्थानीय तहका केही सेवा प्रदायकहरूले प्रारम्भिक बायोमेट्रिक प्रमाणीकरण गर्दा कमजोर इन्क्रिप्सन प्रोटोकल प्रयोग गरेको तथ्य उजागर गरेको छ।",
+        "नागरिकको व्यक्तिगत गोपनीयताको ग्यारेन्टी गर्न संसद्को राज्य व्यवस्था समितिले अर्को साता कडा कानुन र अडिट मापदण्डमाथि छलफल सुरु गर्दैछ।",
+      ],
+    },
+    coverImage:
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+    beat: "Policy",
+    reporter: {
+      name: { en: "Aashish Poudel", np: "आशिष पौडेल" },
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+      role: { en: "Investigative Tech Editor", np: "प्रविधि अनुसन्धान सम्पादक" },
+    },
+    date: "Nov 15, 2026",
+    dateNep: "२०८१ कार्तिक ३०",
+    readTime: "6 min read",
+    status: "PUBLISHED",
+    isPinnedToGrid: true,
+    views: 6120,
+  },
+  {
+    id: "rep-4",
+    slug: "tarai-agroforestry-groundwater-replenishment",
+    title: {
+      en: "Re-greening the Chure Foothills: Community Agroforestry Halts Flash Floods",
+      np: "चुरेको फेदीमा पुनर्जीवन: सामुदायिक कृषि-वनले रोक्यो बाढी र मरुभूमिकरण",
+    },
+    excerpt: {
+      en: "Farmers along the Mahottari-Sarlahi corridor plant vetiver grass and indigenous teak to restore descending aquifers.",
+      np: "महोत्तरी र सर्लाहीका किसानले बाँस र रैथाने बिरुवा रोपेर सुक्न लागेका पानीका मुहान कसरी ब्युँताए?",
+    },
+    content: {
+      en: [
+        "Unregulated sand and boulder extraction across the fragile Chure foothills had turned seasonal streams into raging torrents during monsoons, while leaving tube-wells bone-dry by March.",
+        "Three years ago, six villages banded together under the Bhabar Conservation Accord. By intercropping vetiver grass on riverbanks with indigenous bamboo and multipurpose fruit orchards, the community created a living silt barrier.",
+        "Hydrogeological monitoring wells now confirm that groundwater levels have stabilized by 1.8 meters across fifty square kilometers of fertile plains.",
+      ],
+      np: [
+        "चुरे क्षेत्रमा बालुवा र ढुङ्गाको अनियन्त्रित दोहनले गर्दा वर्षातमा उर्लने खोलाहरूले वर्षेनि हजारौं बिघा खेतीयोग्य जमिन बगाउँदै आएका थिए भने चैत नलाग्दै चापाकलहरू सुक्ने गर्थे।",
+        "तर तीन वर्षअघि भावर संरक्षण सम्झौतामार्फत संगठित भएका ६ गाउँका बासिन्दाले खोलाको डिलमा बेत र बाँस रोपेर जैविक तटबन्ध निर्माण गरे।",
+        "यसको सकारात्मक परिणामस्वरुप ५० वर्ग किलोमिटर क्षेत्रमा जमिनमुनिको पानीको सतह १.८ मिटरले माथि उक्लिएको जलस्रोत विज्ञहरूले पुष्टि गरेका छन्।",
+      ],
+    },
+    coverImage:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
+    beat: "Environment",
+    reporter: {
+      name: { en: "Bindu Yadav", np: "बिन्दु यादव" },
+      avatar:
+        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
+      role: { en: "Southern Plains Bureau", np: "तराई-मधेश ब्यूरो" },
+    },
+    date: "Nov 14, 2026",
+    dateNep: "२०८१ कार्तिक २९",
+    readTime: "4 min read",
+    status: "PUBLISHED",
+    isPinnedToGrid: true,
+    views: 2980,
+  },
+  {
+    id: "rep-5",
+    slug: "nepali-devanagari-open-source-ai-models",
+    title: {
+      en: "Beyond Silicon Valley English: Training Indigenous Devanagari AI in Nepal",
+      np: "सिलिकन भ्याली बाहिर: नेपालमै नेपाली भाषाको खुला स्रोत एआई मोडेल निर्माण",
+    },
+    excerpt: {
+      en: "A distributed cohort of Kathmandu university researchers releases the country's first open-weights 8B multilingual LLM.",
+      np: "काठमाडौंका युवा इन्जिनियरहरूद्वारा स्थानीय भाषाहरू र देवनागरी लिपिमा आधारित खुला स्रोत एआई सार्वजनिक।",
+    },
+    content: {
+      en: [
+        "Commercial generative AI platforms frequently fail at nuanced South Asian morphology, producing awkward transliterations or culturally blind responses.",
+        "Project Hiti, an open-source initiative led by computational linguists in Pulchowk, has released a fine-tuned open-weights model trained on two centuries of public-domain Nepali literature, court judgments, and folk songs.",
+        "The model runs locally on low-cost edge computing devices, enabling health workers in remote health posts to access automated triage guidelines in colloquial dialects without internet connectivity.",
+      ],
+      np: [
+        "विश्वव्यापी ठूला एआई प्रणालीहरूले नेपाली भाषाको जटिल व्याकरण, उखान-टुक्का र स्थानीय सन्दर्भलाई प्रायः तोडमरोड गर्ने गरेका छन्।",
+        "पुल्चोकका कम्प्युटेसनल भाषाविद् र इन्जिनियरहरूको 'प्रोजेक्ट हिति' ले दुई शताब्दी पुराना साहित्यिक कृति, अदालती फैसला र लोककथामा आधारित खुला स्रोत मोडेल तयार पारेको छ।",
+        "यो मोडेल इन्टरनेट विना नै सामान्य कम्प्युटरमा चल्न सक्ने भएकाले दुर्गम स्वास्थ्य चौकीहरूमा प्राथमिक स्वास्थ्य परामर्शका लागि समेत उपयोगी सिद्ध भएको छ।",
+      ],
+    },
+    coverImage:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    beat: "Tech",
+    reporter: {
+      name: { en: "Kiran Shrestha", np: "किरण श्रेष्ठ" },
+      avatar:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+      role: { en: "Technology & Innovation Fellow", np: "प्रविधि अनुसन्धान फेलो" },
+    },
+    date: "Nov 13, 2026",
+    dateNep: "२०८१ कार्तिक २८",
+    readTime: "5 min read",
+    status: "PUBLISHED",
+    isPinnedToGrid: true,
+    views: 7350,
+  },
+  {
+    id: "rep-6",
+    slug: "rethinking-youth-outmigration-social-remittances",
+    title: {
+      en: "The Returnee Builders: How Gulf Expatriates Are Reshaping Pokhara's Green Economy",
+      np: "फर्किएका हातहरूको उद्यम: खाडीको पसिनाबाट पोखरामा हरित अर्थतन्त्रको जग",
+    },
+    excerpt: {
+      en: "Returning mechanics and hospitality specialists pool collective capital into organic farming, EV fleets, and modern design ateliers.",
+      np: "वैदेशिक रोजगारीबाट फर्केका युवाहरूको सामूहिक लगानीमा अर्गानिक खेती, ईभी यातायात र नयाँ उद्यमको लहर।",
+    },
+    content: {
+      en: [
+        "For nearly two decades, the dominant economic narrative of Nepal has centered on the sheer volume of overseas cash remittances sent home by migrant workers.",
+        "Today, a qualitative transformation is underway in Gandaki Province. Returning professionals who spent a decade mastering industrial logistics in Dubai and Doha are founding collective manufacturing hubs and eco-tourism micro-enterprises.",
+        "Their investments bring something far more potent than foreign currency: global operational discipline, stringent safety protocols, and an unshakeable determination to build dignified livelihoods at home.",
+      ],
+      np: [
+        "विगत दुई दशकदेखि नेपालको अर्थतन्त्र वैदेशिक रोजगारीबाट भित्रिने रेमिट्यान्सको तथ्यांकमा मात्र सीमित जस्तो देखिन्थ्यो।",
+        "तर अहिले गण्डकी प्रदेशमा फरक दृश्य देखिन थालेको छ। कतार र दुबईका आधुनिक परियोजनामा १० वर्ष काम गरेर फर्केका युवाहरूले सामूहिक रूपमा आधुनिक कृषि, विद्युतीय ढुवानी र नयाँ उद्यम सुरु गरेका छन्।",
+        "उनीहरूले पैसा मात्र होइन, अन्तर्राष्ट्रिय कार्यसंस्कृति, समयको अनुशासन र आफ्नै माटोमा स्वाभिमानपूर्वक बाँच्ने नयाँ दृष्टिकोण पनि भित्र्याएका छन्।",
+      ],
+    },
+    coverImage:
+      "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+    beat: "Society",
+    reporter: {
+      name: { en: "Manish Pokharel", np: "मनिष पोखरेल" },
+      avatar:
+        "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=200&q=80",
+      role: { en: "Social Trends Editor", np: "सामाजिक रुपान्तरण सम्पादक" },
+    },
+    date: "Nov 12, 2026",
+    dateNep: "२०८१ कार्तिक २७",
+    readTime: "5 min read",
+    status: "PUBLISHED",
+    isPinnedToGrid: true,
+    views: 5210,
+  },
+];
+
+export const INITIAL_ARTICLES: Article[] = [
+  {
+    id: "art-1",
+    slug: "the-architecture-of-nepali-public-trust",
+    headline: {
+      en: "The Architecture of Public Trust: Rebuilding Institutions in a Hyper-Partisan Age",
+      np: "सार्वजनिक विश्वासको संरचना: दलीय ध्रुवीकरणको युगमा राज्य संयन्त्रको पुनर्गठन",
+    },
+    deck: {
+      en: "Institutions do not crumble overnight; they decay when citizens begin expecting less from them. A manifesto for radical civic renewal.",
+      np: "कुनै पनि संस्था एकै रातमा ढल्दैनन्; जब नागरिकले राज्यबाट आश गर्न छाड्छन्, तब क्षय सुरु हुन्छ। नागरिक चेतनाको नयाँ बहस।",
+    },
+    content: {
+      en: [
+        "In modern democratic thought, cynicism is often mistaken for sophistication. We applaud the citizen who sneers at public policy, yet we wonder why public goods continue to deteriorate with alarming velocity.",
+        "True institutional resilience cannot be engineered in parliament alone through legislative decrees. It demands a revitalized civic compact where community oversight is relentless, where whistleblowers are celebrated rather than ostracized, and where public discourse returns to empirical substance over performative outrage.",
+        "Nepal stands at a pivotal historical junction. The generational transfer of cultural, economic, and moral authority is already unfolding across town halls and digital forums. What remains to be determined is whether our institutional frameworks can expand with sufficient agility to contain this emergent collective consciousness.",
+      ],
+      np: [
+        "आधुनिक लोकतान्त्रिक बहसमा निराशा र कटाक्षलाई नै बौद्धिकता ठान्ने भ्रम व्याप्त छ। हामी सार्वजनिक नीतिमाथि व्यंग्य गर्नेलाई वाहवाही गर्छौं, तर राज्यका आधारभूत संरचनाहरू किन धराशायी हुँदैछन् भनेर गम्भीर बन्दैनौं।",
+        "कुनै पनि संस्थाको वास्तविक तागत संसद्का कानुनहरूमा मात्र सीमित हुँदैन। यसका लागि नागरिकको प्रत्यक्ष खबरदारी, सुशासनप्रतिको निष्ठा र भड्काउ भाषणभन्दा तथ्यपरक बहसलाई प्राथमिकता दिने सामाजिक संस्कार चाहिन्छ।",
+        "नेपाल अहिले ऐतिहासिक मोडमा उभिएको छ। स्थानीय तहदेखि डिजिटल मञ्चहरूमा नयाँ पुस्ताको हस्तक्षेप सुरु भइसकेको छ। अबको मुख्य प्रश्न राज्यका नीति-नियमहरूले यो बदलिँदो जनआकांक्षालाई कसरी सम्बोधन गर्छन् भन्ने नै हो।",
+      ],
+    },
+    coverImage:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+    author: {
+      name: { en: "Prof. Dr. Sharada Adhikari", np: "प्रा. डा. शारदा अधिकारी" },
+      avatar:
+        "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80",
+      designation: {
+        en: "Senior Constitutional & Public Policy Scholar",
+        np: "वरिष्ठ संविधान तथा सार्वजनिक नीति विश्लेषक",
+      },
+      bio: {
+        en: "Fellow at the Institute of South Asian Studies and author of 'The Fractured Republic'.",
+        np: "दक्षिण एसियाली अध्ययन प्रतिष्ठानकी फेलो तथा 'द फ्र्याक्चर्ड रिपब्लिक' की लेखक।",
+      },
+    },
+    date: "Nov 17, 2026",
+    dateNep: "२०८१ मंसिर २",
+    readTime: "7 min read",
+    isFeaturedLead: true,
+    status: "PUBLISHED",
+    views: 8940,
+  },
+  {
+    id: "art-2",
+    slug: "on-the-silent-erosion-of-vernacular-spaces",
+    headline: {
+      en: "On the Silent Erosion of Vernacular Spaces in the Kathmandu Valley",
+      np: "काठमाडौँ उपत्यकाका मौलिक सार्वजनिक पाटी-पौवा र हराउँदै गएको खुलापन",
+    },
+    deck: {
+      en: "As steel and tinted glass conquer the ancient town squares, we lose the communal spaces where memory was once collectively shared.",
+      np: "सहर कंक्रिटको जंगल बन्दै गर्दा हामीले हाम्रा चोक, डबली र पुस्तौंदेखि साझा संवाद हुने थलोहरू कसरी गुमायौं?",
+    },
+    content: {
+      en: [
+        "The Traditional falcha (public pavilion) of the Newar town was never simply an architectural ornament. It served as a multi-generational town square where elders reviewed the day's harvest and wandering bards recounted epic mythologies.",
+        "In our haste to erect reflective-glass commercial plazas, we have systematically amputated these communal breathing organs. Urban planning in contemporary Nepal must recover its vernacular soul before the living memory of human-scale cities evaporates completely.",
+      ],
+      np: [
+        "परम्परागत नेवारी सहरका पाटी र फल्चाहरू केवल काठ र इँटाका संरचना मात्र थिएनन्। ती पुस्ताहरूबीच संवाद हुने, वृद्धवृद्धाहरूले घाम ताप्ने र लोकगाथाहरू सुन्ने खुला चौतारी थिए।",
+        "अहिले सिसा र कंक्रिटका व्यापारिक भवनहरू थपिँदै गर्दा सहरको आत्मीयता हराउँदै गएको छ। अबको सहरी विकासले आधुनिकतासँगै सहरको मानवीय संवेदना र सम्पदाको आत्मालाई बचाउनै पर्छ।",
+      ],
+    },
+    author: {
+      name: { en: "Rabin Shakya", np: "रविन शाक्य" },
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+      designation: {
+        en: "Urban Historian & Heritage Architect",
+        np: "सहरी इतिहासकार तथा सम्पदा वास्तुविद्",
+      },
+      bio: {
+        en: "Principal at Valley Design Lab; consulting architect on Bhaktapur post-quake restorations.",
+        np: "भ्याली डिजाइन ल्याबका प्रमुख तथा भक्तपुर पुनर्निर्माणका सल्लाहकार वास्तुविद्।",
+      },
+    },
+    date: "Nov 15, 2026",
+    dateNep: "२०८१ कार्तिक ३०",
+    readTime: "5 min read",
+    isFeaturedLead: false,
+    status: "PUBLISHED",
+    views: 3120,
+  },
+  {
+    id: "art-3",
+    slug: "the-language-of-silent-mountains",
+    headline: {
+      en: "The Language of Silent Mountains: Glacial Retreat and Himalayan Geopolitics",
+      np: "हिमालको मौन चित्कार: हिमनदी पग्लिँदै गर्दा एसियाको जल सुरक्षा संकट",
+    },
+    deck: {
+      en: "Climate shifts in the Third Pole will rewrite water sovereignty treaties across South and Southeast Asia within the next decade.",
+      np: "तेस्रो ध्रुव भनिने हिन्दुकुश हिमालको हिउँ पग्लने क्रमले आगामी दशकमा समग्र एसियाको जल राजनीतिलाई पुनर्भाषित गर्नेछ।",
+    },
+    content: {
+      en: [
+        "The snowfields of the Himalaya feed ten of Asia's primary river systems, sustaining nearly two billion human beings from the Indus Basin to the Mekong Delta.",
+        "When high-altitude measuring gauges record accelerated summer melting coupled with unpredictable monsoon precipitation, this is no longer an abstract ecological crisis—it is an impending geopolitical shockwave.",
+      ],
+      np: [
+        "हिमालयका हिमनदीहरूले एसियाका मुख्य १० वटा ठूला नदी प्रणालीलाई जीवन दिन्छन्, जसमा लगभग दुई अर्ब मानिसहरूको दैनिक जीवन जोडिएको छ।",
+        "हिमालको हिउँ पग्लने गति तीव्र बन्दै जाँदा यो केवल वातावरणीय संकट मात्र रहेन, समग्र दक्षिण एसियाको खाद्य र जल सुरक्षासँग जोडिएको रणनीतिक चुनौती बनिसकेको छ।",
+      ],
+    },
+    author: {
+      name: { en: "Dr. Anupama Rayamajhi", np: "डा. अनुपमा रायमाझी" },
+      avatar:
+        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
+      designation: {
+        en: "Glaciologist & Climate Diplomacy Fellow",
+        np: "हिमनदी वैज्ञानिक तथा जलवायु कूटनीति अनुसन्धाता",
+      },
+      bio: {
+        en: "Former lead contributor to ICIMOD Hindu Kush Himalayan Assessment Reports.",
+        np: "इसिमोडको हिन्दुकुश हिमालय अनुसन्धान प्रतिवेदनकी प्रमुख अनुसन्धानकर्ता।",
+      },
+    },
+    date: "Nov 13, 2026",
+    dateNep: "२०८१ कार्तिक २८",
+    readTime: "6 min read",
+    isFeaturedLead: false,
+    status: "PUBLISHED",
+    views: 4560,
+  },
+  {
+    id: "art-4",
+    slug: "beyond-remittance-the-creative-class",
+    headline: {
+      en: "Beyond Remittance: How Nepal's Creative Class Is Building Global Cultural Capital",
+      np: "रेमिट्यान्सभन्दा पर: नेपाली सृजनशील पुस्ता र विश्व बजारमा नयाँ पहिचान",
+    },
+    deck: {
+      en: "From independent cinema in Cannes to computational typography, young artists are exporting narrative sovereignty.",
+      np: "कान्स फिल्म फेस्टिभलदेखि डिजिटल कलासम्म, नेपाली युवाहरूले संसारलाई आफ्नै कथा सुनाउने साहस गरिरहेका छन्।",
+    },
+    content: {
+      en: [
+        "For decades, the global imagination viewed Nepal through a narrow lens of either alpine adventure or economic precarity. That outdated paradigm is collapsing rapidly.",
+        "A wave of fearless filmmakers, sonic artists, and digital visualizers are creating uncompromising cultural works that command critical acclaim in Venice, Toronto, and Berlin.",
+      ],
+      np: [
+        "दशकौंसम्म अन्तर्राष्ट्रिय जगतमा नेपाललाई हिमाल चढ्ने ठाउँ वा आर्थिक रूपमा कमजोर देशका रूपमा मात्र हेर्ने गरियो। तर आज त्यो पुरानो दृष्टिकोण फेरिँदैछ।",
+        "नेपाली युवा चलचित्रकर्मी, संगीतकार र डिजिटल कलाकारहरूले विश्वका प्रतिष्ठित मञ्चहरूमा मौलिक नेपाली कला र कथाको धाक जमाउन थालेका छन्।",
+      ],
+    },
+    author: {
+      name: { en: "Siddhartha Gautam Joshi", np: "सिद्धार्थ गौतम जोशी" },
+      avatar:
+        "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=200&q=80",
+      designation: {
+        en: "Cultural Critic & Independent Curator",
+        np: "सांस्कृतिक समीक्षक तथा स्वतन्त्र क्युरेटर",
+      },
+      bio: {
+        en: "Curator of the Himalayan Contemporary Visual Art Forum and essayist.",
+        np: "हिमालयन कन्टेम्पोररी भिजुअल आर्ट फोरमका क्युरेटर तथा स्तम्भकार।",
+      },
+    },
+    date: "Nov 11, 2026",
+    dateNep: "२०८१ कार्तिक २६",
+    readTime: "4 min read",
+    isFeaturedLead: false,
+    status: "PUBLISHED",
+    views: 2890,
+  },
+];
+
+export const INITIAL_REELS: Reel[] = [
+  {
+    id: "reel-1",
+    title: {
+      en: "Inside Patan's Secret 800-Year Metalcasting Courtyard",
+      np: "पाटनको आठ सय वर्ष पुरानो गोप्य मैन ढलोट कार्यशाला",
+    },
+    caption: {
+      en: "Watch the ancient lost-wax bronze casting master at work in Lalitpur.",
+      np: "ललितपुरमा लिच्छविकालीन विधिबाट धातुका मूर्ति बनाउने दुर्लभ कला।",
+    },
+    thumbnail:
+      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=600&q=80",
+    videoUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    aspectRatio: "9/16",
+    duration: "0:45",
+    order: 1,
+    views: 14200,
+  },
+  {
+    id: "reel-2",
+    title: {
+      en: "Winter Flight Over Upper Dolpo's Snow Valleys",
+      np: "माथिल्लो डोल्पोको हिउँले ढाकिएको उपत्यकामाथि उडान",
+    },
+    caption: {
+      en: "Drone perspective over remote high-altitude solar settlements.",
+      np: "सौर्य माइक्रो-ग्रिडबाट झलमल्ल बनेका हिमाली बस्तीहरूको दृश्य।",
+    },
+    thumbnail:
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80",
+    videoUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    aspectRatio: "9/16",
+    duration: "0:58",
+    order: 2,
+    views: 18900,
+  },
+  {
+    id: "reel-3",
+    title: {
+      en: "Morning Chai & Newsprint at Asan Tole",
+      np: "असन चोकको बिहानी चिया र ताता समाचार",
+    },
+    caption: {
+      en: "The morning rhythm of Kathmandu's oldest trading crossroads.",
+      np: "काठमाडौँको ऐतिहासिक असन बजारको बिहानी चहलपहल र जनजीवन।",
+    },
+    thumbnail:
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+    videoUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+    aspectRatio: "9/16",
+    duration: "0:32",
+    order: 3,
+    views: 9400,
+  },
+  {
+    id: "reel-4",
+    title: {
+      en: "How Vetiver Grass Saved Chure Riverbeds",
+      np: "चुरेको कटान रोक्ने जादुई बेत र बाँसको कथा",
+    },
+    caption: {
+      en: "Community agroforestry fighting sand extraction flash-floods in Tarai.",
+      np: "तराईका किसानले बनाएको प्राकृतिक तटबन्धको सफलता।",
+    },
+    thumbnail:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80",
+    videoUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
+    aspectRatio: "9/16",
+    duration: "0:52",
+    order: 4,
+    views: 11200,
+  },
+  {
+    id: "reel-5",
+    title: {
+      en: "Soundscapes of the Himalayan Pine Forest",
+      np: "हिमाली सल्लाघारीको मौन सुसेली र हावाको धुन",
+    },
+    caption: {
+      en: "Pure ambient audio recorded at 3,200m altitude in Langtang National Park.",
+      np: "लाङटाङ राष्ट्रिय निकुञ्जको ३,२०० मिटर उचाइमा रेकर्ड गरिएको प्राकृतिक संगीत।",
+    },
+    thumbnail:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
+    videoUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+    aspectRatio: "9/16",
+    duration: "0:40",
+    order: 5,
+    views: 8750,
+  },
+];
+
+export const INITIAL_PHOTO_STORIES: PhotoStory[] = [
+  {
+    id: "ps-1",
+    slug: "whispers-of-the-high-passes",
+    title: {
+      en: "Whispers of the High Passes: Winter Life Along the Manang Caravan Trails",
+      np: "उच्च हिमाली भञ्ज्याङका पदचाप: मनाङको प्राचीन गोरेटोमा हिउँदका कथाहरू",
+    },
+    intro: {
+      en: "Before the snow seals the Thorong La Pass, trans-Himalayan pastoralists navigate ancient trails bearing grain, wool, and collective memories.",
+      np: "थोरङ ला भञ्ज्याङ हिउँले ढाकिनुअघि अन्न, ऊन र पुर्ख्यौली सम्झनाहरू बोकेर हिँड्ने हिमाली गोठालाहरूको जीवनयात्रा।",
+    },
+    location: {
+      en: "Thorong La & Upper Manang (4,200m - 5,416m)",
+      np: "थोरङ ला तथा माथिल्लो मनाङ (४,२०० - ५,४१६ मिटर)",
+    },
+    coverImage:
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80",
+    date: "November 2026",
+    status: "PUBLISHED",
+    views: 6410,
+    frames: [
+      {
+        id: "f-1",
+        url: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "First morning light cuts across the Annapurna massifs above Braga village.",
+          np: "ब्रागा गाउँमाथि अन्नपूर्ण हिमशृंखलामा ठोक्किएको बिहानीको पहिलो किरण।",
+        },
+        altText: "Annapurna range illuminated by early morning golden sunlight",
+        order: 1,
+      },
+      {
+        id: "f-2",
+        url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "A caravan of laden mules navigates narrow shale ridges above the Marsyangdi River.",
+          np: "मर्स्याङ्दी नदीभन्दा धेरै माथिको भीरमा अन्न बोकेर हिँडिरहेको खच्चडको लस्कर।",
+        },
+        altText: "Mule caravan walking along steep cliffside trail",
+        order: 2,
+      },
+      {
+        id: "f-3",
+        url: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "Wind-tattered prayer flags at 4,800 meters carrying aspirations across cold passes.",
+          np: "४,८०० मिटर उचाइको भञ्ज्याङमा हावाले फरफराइरहेका लुङ्दर (प्रार्थना ध्वजा)।",
+        },
+        altText: "Colorful Tibetan Buddhist prayer flags fluttering against mountain sky",
+        order: 3,
+      },
+      {
+        id: "f-4",
+        url: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "Elder Tsering Gurung turns his copper prayer wheel beside the hearth in Ngawal.",
+          np: "ङावल गाउँको चुलो छेउमा बसेर माने (प्रार्थना पाङ्ग्रा) घुमाइरहनुभएका ज्येष्ठ नागरिक छिरिङ गुरुङ।",
+        },
+        altText: "Elderly mountain resident rotating traditional prayer wheel",
+        order: 4,
+      },
+      {
+        id: "f-5",
+        url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "Terraced barley fields resting under a thin mantle of autumn frost.",
+          np: "मंसिरको तुसारोले ढाकिएका मनाङका परम्परागत जौका गराहरू।",
+        },
+        altText: "Frost-covered agricultural terraces beneath snowcapped peaks",
+        order: 5,
+      },
+      {
+        id: "f-6",
+        url: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "Evening stars crystallizing above the ice cliffs of Gangapurna Lake.",
+          np: "गंगापूर्ण हिमतालको कञ्चन पानीमाथि उदाएको ताराहरूको आकाश।",
+        },
+        altText: "Night sky full of brilliant stars above mountain lake",
+        order: 6,
+      },
+    ],
+  },
+  {
+    id: "ps-2",
+    slug: "faces-of-the-clay-kilns",
+    title: {
+      en: "Faces of the Clay Kilns: Potters of Thimi in the Glow of Woodsmoke",
+      np: "माटोका साधकहरू: थिमीका कुमालेहरूको पसिना र आगोको कथा",
+    },
+    intro: {
+      en: "Before the festival of lights, generational ceramic masters in Bhaktapur shape clay vessels by touch and fire them in open straw kilns.",
+      np: "चाडपर्वको मुखमा भक्तपुरको थिमीमा माटोलाई आफ्नै हातले जीवन दिने कुमालेहरूको जीवन भोगाइ।",
+    },
+    location: {
+      en: "Thimi, Bhaktapur",
+      np: "थिमी, भक्तपुर",
+    },
+    coverImage:
+      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1600&q=80",
+    date: "October 2026",
+    status: "PUBLISHED",
+    views: 4320,
+    frames: [
+      {
+        id: "f-21",
+        url: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "A wooden wheel spins as wet black clay blooms into an earthen water vessel.",
+          np: "कुमालेको काठे चक्र घुम्दै गर्दा कालो माटोले घैंटोको आकार लिँदै।",
+        },
+        altText: "Hands shaping clay vessel on potter's wheel",
+        order: 1,
+      },
+      {
+        id: "f-22",
+        url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "Hundreds of sun-dried earthen lamps laid out across the open square.",
+          np: "चोकभरि घाममा सुकाउन राखिएका सयौं पाला (माटोका दियो) हरू।",
+        },
+        altText: "Thousands of small clay oil lamps drying in sunlight",
+        order: 2,
+      },
+      {
+        id: "f-23",
+        url: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "Piles of rice husks and timber stoked into the open-air communal kiln at dusk.",
+          np: "साँझपख पराल र भुसले छोपिएको खुला खाडलमा माटाका भाँडाहरू पोल्ने तयारी।",
+        },
+        altText: "Traditional smoke-filled open pottery kiln at twilight",
+        order: 3,
+      },
+      {
+        id: "f-24",
+        url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80",
+        caption: {
+          en: "Cooling terracotta showing distinct iron-rich reddish hue unique to Valley clay.",
+          np: "पोलेर रातो भएका माटोका भाँडाहरू चिसिँदै गर्दा देखिएको मौलिक रूप।",
+        },
+        altText: "Freshly fired terracotta pots glowing in morning shade",
+        order: 4,
+      },
+    ],
+  },
+];
+
+export const INITIAL_SERVICES: ServiceItem[] = [
+  {
+    id: "srv-1",
+    number: "01",
+    title: {
+      en: "Video & Media Production",
+      np: "भिडियो तथा मिडिया उत्पादन",
+    },
+    description: {
+      en: "Cinematic documentaries, brand films, and investigative field pieces crafted with broadcast-grade rigor, sound design, and narrative pacing.",
+      np: "सिनेम्याटिक वृत्तचित्र, ब्रान्ड फिल्म र अनुसन्धानात्मक भिडियोहरू; उच्च प्रसारण मापदण्ड र सशक्त कथावाचनसहित।",
+    },
+    deliverables: {
+      en: [
+        "Full 4K Documentary & Field Production",
+        "Spatial Audio Design & Original Soundtracks",
+        "Color Grading & Cinematic Master Deliveries",
+        "Short-Form Vertical Cuts (Reels & Shorts)",
+      ],
+      np: [
+        "४के सिनेम्याटिक डकुमेन्ट्री तथा भिडियो छायांकन",
+        "अडियो सम्पादन र मौलिक ब्याकग्राउन्ड म्युजिक",
+        "रंग संयोजन (कलर ग्रेडिङ) र अन्तिम मास्टर आउटपुट",
+        "सर्ट्स र रिल्सका लागि विशेष भर्टिकल भिडियो",
+      ],
+    },
+  },
+  {
+    id: "srv-2",
+    number: "02",
+    title: {
+      en: "Personal Branding & Identity",
+      np: "व्यक्तिगत ब्रान्डिङ तथा पहिचान",
+    },
+    description: {
+      en: "For founders, thought leaders, and creative directors: sculpting cohesive digital presence, voice guidelines, portraiture, and editorial essays.",
+      np: "उद्यमी, लेखक तथा नेतृत्व वर्गका लागि डिजिटल उपस्थिति, प्रभावकारी प्रस्तुति, व्यावसायिक तस्बिर र आलेख लेखन।",
+    },
+    deliverables: {
+      en: [
+        "Executive Positioning & Narrative Archetypes",
+        "Editorial Portrait Photography & Art Direction",
+        "Ghostwriting for Op-Eds & Industry Monographs",
+        "Multi-Platform Publishing Strategy",
+      ],
+      np: [
+        "कार्यकारी व्यक्तित्व विकास र पहिचान निर्माण",
+        "व्यावसायिक फोटोग्राफी र कला निर्देशन",
+        "राष्ट्रिय/अन्तर्राष्ट्रिय पत्रिकाका लागि लेख रचना",
+        "डिजिटल सञ्जालमा रणनीतिक उपस्थिति",
+      ],
+    },
+  },
+  {
+    id: "srv-3",
+    number: "03",
+    title: {
+      en: "Editorial Design & Digital Storytelling",
+      np: "सम्पादकीय डिजाइन तथा डिजिटल कथावाचन",
+    },
+    description: {
+      en: "Transforming complex research, public policy data, and corporate archives into bespoke interactive scrollytelling web experiences.",
+      np: "जटिल अनुसन्धान, सार्वजनिक नीति र तथ्यांकहरूलाई अन्तरक्रियात्मक, सुन्दर र प्रभावकारी वेब कथामा रूपान्तरण।",
+    },
+    deliverables: {
+      en: [
+        "Bespoke Scrollytelling Websites & Digital Annual Reports",
+        "Custom Typography & Devanagari Font Pairing",
+        "Interactive Infographics & Spatial Data Visualizations",
+        "Print Broadsheet & Book Cover Art Direction",
+      ],
+      np: [
+        "अन्तरक्रियात्मक वेब रिपोर्ट तथा डिजिटल पुस्तकहरू",
+        "नेपाली र अंग्रेजी फन्टको मौलिक संयोजन",
+        "तथ्यांकमा आधारित इन्फोग्राफिक्स र नक्सांकन",
+        "प्रकाशन र पुस्तकका लागि उच्चस्तरीय डिजाइन",
+      ],
+    },
+  },
+];
+
+export const INITIAL_INQUIRIES: Inquiry[] = [
+  {
+    id: "inq-1",
+    clientName: "Himalayan Clean Energy Coalition",
+    clientEmail: "partnerships@himalayancleanenergy.org",
+    clientPhone: "+977-1-4239811",
+    serviceId: "srv-1",
+    serviceTitle: "Video & Media Production",
+    projectScope:
+      "We want to produce a 12-minute investigative documentary on high-altitude microgrids in Dolpo with short social cuts.",
+    budgetRange: "$5,000 - $10,000",
+    createdAt: "2026-11-16T10:30:00Z",
+    status: "NEW",
+  },
+  {
+    id: "inq-2",
+    clientName: "Aarati Shrestha",
+    clientEmail: "aarati.shrestha@craftatelier.np",
+    clientPhone: "+977-9841238910",
+    serviceId: "srv-2",
+    serviceTitle: "Personal Branding & Identity",
+    projectScope:
+      "Looking for executive portraiture, personal website design, and editorial op-ed assistance for my sustainable textile venture.",
+    budgetRange: "$2,000 - $5,000",
+    createdAt: "2026-11-15T14:15:00Z",
+    status: "CONTACTED",
+  },
+];
+
+export const INITIAL_ABOUT: AboutSettings = {
+  manifesto: {
+    en: "Sanokuraa is an independent editorial studio and investigative digital journal based in Kathmandu, Nepal. We believe the most consequential stories are often buried in the quiet margins of everyday life—where indigenous ingenuity confronts modern disruption, where ancient craft meets computation, and where human dignity speaks truth to power.",
+    np: "सानोकुरा काठमाडौँमा आधारित एक स्वतन्त्र सम्पादकीय स्टुडियो र अनुसन्धानात्मक डिजिटल पत्रिका हो। हामी विश्वास गर्छौं कि समाजलाई बदल्ने सबैभन्दा शक्तिशाली कथाहरू प्रायः सामान्य जीवनका शान्त कुनाहरूमा लुकेका हुन्छन्—जहाँ पुर्ख्यौली ज्ञानले आधुनिक चुनौतीको सामना गर्छ, जहाँ कला र प्रविधि जोडिन्छन्, र जहाँ मानवीय स्वाभिमानले शक्तिकेन्द्रसँग आँखा जुधाएर सत्य बोल्छ।",
+  },
+  story: {
+    en: "Founded by a collective of documentary filmmakers, investigative journalists, and creative technologists, Sanokuraa blends the austere elegance of international editorial portfolios with the fearless truth-telling of grassroots Nepali reporting. We do not chase clickbait or echo partisan noise; we sculpt durable journalism and bespoke creative narratives designed to endure.",
+    np: "डकुमेन्ट्री चलचित्रकर्मी, खोज पत्रकार र सृजनशील इन्जिनियरहरूको सहकार्यमा स्थापित सानोकुराले अन्तर्राष्ट्रिय सम्पादकीय कला र नेपाली जनजीवनको निर्भीक यथार्थलाई एकै ठाउँमा जोड्छ। हामी भाइरल हुने होडबाजी वा दलीय कोलाहलमा लाग्दैनौं; हाम्रो उद्देश्य समयको परीक्षामा खरो उत्रने दिगो पत्रकारिता र कालजयी कथाहरू सिर्जना गर्नु हो।",
+  },
+  team: [
+    {
+      name: "Shahil Kattel",
+      role: "Founder & Creative Director",
+      avatar:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+      bio: "Visual storyteller and designer pioneering bilingual editorial media at the intersection of journalism and computational design.",
+    },
+    {
+      name: "Pasang Dorje Lama",
+      role: "Lead Field Reporter (Himalayan Affairs)",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+      bio: "Investigative correspondent covering climate resilience, indigenous governance, and trans-Himalayan trade routes.",
+    },
+    {
+      name: "Sujata Shakya",
+      role: "Arts & Visual Culture Curator",
+      avatar:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80",
+      bio: "Architectural historian specializing in Newar metalcasting, spatial archives, and living cultural heritage.",
+    },
+  ],
+  socialLinks: {
+    twitter: "https://twitter.com/sanokuraa",
+    instagram: "https://instagram.com/sanokuraa",
+    youtube: "https://youtube.com/@sanokuraa",
+    linkedin: "https://linkedin.com/company/sanokuraa",
+    github: "https://github.com/shahil-kattel/sano-kura",
+    email: "editorial@sanokuraa.com",
+  },
+};

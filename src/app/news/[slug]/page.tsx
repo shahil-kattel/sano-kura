@@ -24,6 +24,7 @@ import {
 import { useLanguage } from "@/context/LanguageContext";
 import { useNews } from "@/context/NewsContext";
 import { NewsCard } from "@/components/NewsCard";
+import AdsPlacement from "@/components/AdsPlacement";
 
 export default function ArticlePage() {
   const params = useParams();
@@ -380,6 +381,11 @@ export default function ArticlePage() {
             </div>
           </div>
 
+          {/* Article Bottom Ad Placement */}
+          <div className="mt-8">
+            <AdsPlacement position="article-bottom" />
+          </div>
+
           {/* 3. COMMENTS SECTION */}
           <div className="mt-10 pt-8 border-t border-gray-200">
             <h3 className="text-xl font-black text-gray-900 flex items-center gap-2 mb-6">
@@ -449,6 +455,9 @@ export default function ArticlePage() {
 
         {/* Sidebar (1 Col): Most Read & Related */}
         <aside className="space-y-6">
+          {/* Article Top Ad Placement */}
+          <AdsPlacement position="article-top" />
+
           {/* Trending / Most Read */}
           <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-xs">
             <div className="flex items-center justify-between pb-3 mb-3 border-b-2 border-red-600">

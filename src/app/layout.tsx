@@ -1,28 +1,36 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import {
+  newsreader,
+  lora,
+  inter,
+  mukta,
+  notoSerifDevanagari,
+} from "@/lib/fonts";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { NewsProvider } from "@/context/NewsContext";
+import { SanokuraaProvider } from "@/context/SanokuraaContext";
 import { MainLayoutWrapper } from "@/components/MainLayoutWrapper";
 
 export const metadata: Metadata = {
-  title: "सानो कुरा | Sano Kura - सत्य, तथ्य र निष्पक्ष नेपाली समाचार",
+  title: "Sanokuraa (सानोकुरा) | Editorial & Creative Studio + Digital Journal",
   description:
-    "नेपालको अग्रणी डिजिटल समाचार पोर्टल: राजनीति, समाज, अर्थ, खेलकुद, विचार, मनोरञ्जन, विश्व र प्रविधिका ताजा र आधिकारिक समाचार।",
+    "Kathmandu-based independent editorial studio, investigative reporting bureau, and visual storytelling archive.",
   keywords: [
-    "सानो कुरा",
-    "Sano Kura",
-    "Nepali News",
+    "Sanokuraa",
+    "सानोकुरा",
+    "Nepali Journalism",
+    "Investigative Reporting",
+    "Editorial Design",
+    "Creative Portfolio",
+    "Kathmandu",
     "Nepal News",
-    "Online Khabar",
-    "Samachar",
-    "Nepali News Portal",
-    "नेपाली समाचार",
   ],
-  authors: [{ name: "Sano Kura Media Pvt. Ltd." }],
+  authors: [{ name: "Sanokuraa Collective" }],
   openGraph: {
-    title: "सानो कुरा | Sano Kura - नेपाली अनलाइन समाचार",
-    description: "सत्य, तथ्य र निष्पक्ष समाचारको संवाहक",
-    siteName: "सानो कुरा (Sano Kura)",
+    title: "Sanokuraa | Editorial & Creative Studio + Digital Journal",
+    description: "Truthful reporting, high-altitude dispatches, and bespoke visual storytelling from Nepal.",
+    siteName: "Sanokuraa",
     locale: "ne_NP",
     type: "website",
   },
@@ -34,11 +42,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ne">
-      <body className="min-h-screen flex flex-col bg-gray-50 text-gray-900 antialiased selection:bg-red-600 selection:text-white">
+    <html
+      lang="ne"
+      className={`${newsreader.variable} ${lora.variable} ${inter.variable} ${mukta.variable} ${notoSerifDevanagari.variable}`}
+    >
+      <body className="min-h-screen flex flex-col bg-sanok text-ink font-sans antialiased selection:bg-accent selection:text-white">
         <LanguageProvider>
           <NewsProvider>
-            <MainLayoutWrapper>{children}</MainLayoutWrapper>
+            <SanokuraaProvider>
+              <MainLayoutWrapper>{children}</MainLayoutWrapper>
+            </SanokuraaProvider>
           </NewsProvider>
         </LanguageProvider>
       </body>

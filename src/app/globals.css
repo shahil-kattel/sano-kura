@@ -2,17 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Mukta:wght@300;400;500;600;700;800&display=swap');
+/* ============================================================
+   SANO KURA — Editorial & Creative Portfolio Design Tokens
+   Spec: background #FAFAFA / #FFFFFF, ink #111827,
+         slate metadata #6B7280, 1px hairline #E5E7EB,
+         single restrained editorial accent.
+   Fonts: next/font/google — editorial serif (Newsreader/Lora)
+          + geometric sans (Inter) + Devanagari (Mukta /
+          Noto Serif Devanagari).
+   ============================================================ */
 
 :root {
-  --font-nepali: 'Mukta', 'Noto Sans Devanagari', sans-serif;
-  --font-english: 'Inter', system-ui, sans-serif;
+  /* --- Design tokens (spec) --- */
+  --sanok: #FAFAFA;
+  --paper: #FFFFFF;
+  --ink: #111827;
+  --slate: #6B7280;
+  --hairline: #E5E7EB;
+  --accent: #B91C1C; /* restrained editorial red — the single accent */
+  --accent-soft: #FEE2E2;
+  --accent-ink: #7F1D1D;
+
+  /* --- Font pairing --- */
+  /* English editorial serif: Newsreader (primary) + Lora (fallback) */
+  --font-editorial: var(--font-newsreader), var(--font-lora), "Times New Roman", serif;
+  /* English geometric sans: Inter */
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  /* Nepali / Devanagari: Mukta (primary), Noto Serif Devanagari (editorial fallback) */
+  --font-nepali: var(--font-mukta), var(--font-noto-serif-devanagari), "Noto Sans Devanagari", sans-serif;
+}
+
+/* Light theme (default) */
+:root,
+[data-theme="light"] {
+  --sanok: #FAFAFA;
+  --paper: #FFFFFF;
+  --ink: #111827;
+  --slate: #6B7280;
+  --hairline: #E5E7EB;
+  --accent: #B91C1C;
+  --accent-soft: #FEE2E2;
+  --accent-ink: #7F1D1D;
+}
+
+/* Dark theme — ink swaps to paper, paper to charcoal */
+[data-theme="dark"] {
+  --sanok: #0B0F17;
+  --paper: #111827;
+  --ink: #F9FAFB;
+  --slate: #9CA3AF;
+  --hairline: #1F2937;
+  --accent: #EF4444;
+  --accent-soft: #7F1D1D;
+  --accent-ink: #FCA5A5;
 }
 
 body {
   font-family: var(--font-nepali);
-  background-color: #f9fafb;
-  color: #111827;
+  background-color: var(--sanok);
+  color: var(--ink);
   overflow-x: clip;
 }
 
@@ -28,16 +76,41 @@ html {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-/* Custom styling for news typography */
+/* Editorial typography scale — high-contrast serif headings, geometric sans UI */
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-editorial);
   letter-spacing: -0.015em;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* English-language headings switch to the editorial serif face */
+h1.en, h2.en, h3.en, h4.en, h5.en, h6.en,
+.title-en, .headline-en, .serif-en {
+  font-family: var(--font-editorial);
+}
+
+/* Nepali headings keep the Devanagari editorial face */
+h1.np, h2.np, h3.np, h4.np, h5.np, h6.np,
+.title-np, .headline-np, .serif-np {
+  font-family: var(--font-nepali);
+}
+
+/* Utility: geometric sans for UI chrome */
+.sans-ui, .meta, .byline, .caption, .ticker, .toolbar {
+  font-family: var(--font-sans);
 }
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Subtle hairline divider utility */
+.hairline {
+  border-color: var(--hairline);
 }
